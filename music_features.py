@@ -1,4 +1,7 @@
 from selenium import webdriver
+"""
+利用search_id來抓音樂特徵
+"""
 from bs4 import BeautifulSoup as bs
 import json
 import os
