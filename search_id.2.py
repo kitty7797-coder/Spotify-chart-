@@ -1,6 +1,5 @@
 from selenium import webdriver
 from bs4 import BeautifulSoup as bs
-from time import sleep
 import os
 import pandas as pd
 # import csv
@@ -38,7 +37,7 @@ def get_search_id(spotify_id):
     search_id=sub_content[2]
     return search_id
 base_url="C:/Users/student/Desktop/Spotify-chart-/uniq_track/{}.csv"
-url=base_url.format('2024_uniq_track')
+url=base_url.format('2025_uniq_track')
 data=pd.read_csv(url, encoding='utf-8-sig')
 columns=['uri','track_name']
 data.columns=columns

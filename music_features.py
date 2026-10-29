@@ -6,7 +6,7 @@ from time import sleep
 import pandas as pd
 # import csv
 base_url="C:/Users/student/Desktop/Spotify-chart-/uniq_track/{}.csv"
-url=base_url.format('2024_uniq_track')
+url=base_url.format('2023_uniq_track')
 data=pd.read_csv(url, encoding='utf-8-sig')
 search_id=list(data['search_id'])
 wrong_data=[]
@@ -51,6 +51,6 @@ for _ in range(len(search_id)):
 #寫入csv檔案
 df.index+=1
 file_name=os.path.abspath(file_name)
-df.to_csv(file_name+'\\2024_music_feature.csv', encoding='utf-8-sig')  
+df.to_csv(file_name+'\\2023_music_feature.csv', encoding='utf-8-sig')  
     
     

@@ -6,7 +6,7 @@
 import pandas as pd
 import os
 
-base_url='C:/Users/student/Desktop/專案/twchart/clear_data/{}年{}，{}月({}).csv'
+base_url='./twchart/clear_data.2/{}年{}，{}月({}).csv'
 #記得要改url
 while True:
     #輸入第一份資料
@@ -38,8 +38,9 @@ while True:
         clear_pd['total_stream_y']=clear_pd['total_stream_y'].fillna(0)
         clear_pd['total_stream']=clear_pd['total_stream_x']+clear_pd['total_stream_y']
         clear_pd=clear_pd.drop(columns=['Unnamed: 0_x','Unnamed: 0_y','track_name_y','artist_names_y','total_stream_y',\
-                                         'total_stream_x'])
+                                         'total_stream_x','total_on_chart_x','total_on_chart_y'])
         
+        clear_pd.info()    
         clear_pd.columns=['uri','artist_names','track_name','total_stream']
         # #確認資訊
         clear_pd.info()

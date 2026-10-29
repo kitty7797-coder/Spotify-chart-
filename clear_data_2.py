@@ -10,10 +10,10 @@ from datetime import timedelta
 
 #建立日期清單
 days=[]
-start_day=datetime.date(2026, 10, 22)
+start_day=datetime.date(2023, 12, 28)
 days.append(start_day)
 while True:
-    if len(days)>=170:
+    if len(days)>=52:
         break    
     new_day=days[-1]-timedelta(days=7)
     days.append(new_day)
