@@ -49,7 +49,7 @@ while True:
         #確認資訊
         clear_pd.info()
         
-        file_name=f'C:/Users/student/Desktop/專案/mon_data/{year}'
+        file_name=f'./mon_data/{year}'
         if not os.path.exists(file_name):
             os.mkdir(file_name)
         clear_pd.to_csv(file_name+'/'+save_name+'.csv', encoding='utf-8-sig')
