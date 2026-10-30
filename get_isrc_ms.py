@@ -8,7 +8,7 @@ import os
 import csv
 from time import sleep
 
-#因為適用pop最後記得[::-1]翻轉回來
+#因為是用pop最後記得[::-1]翻轉回來
 isrcs=[]
 release_dates=[]
 album_types=[]
@@ -21,13 +21,12 @@ token=content['access_token']
 
 #讀取要要求的id檔案
 year=eval(input())
-id_url=f'./uniq_track/{year}_uniq_track.2.csv'
+id_url=f'./uniq_track/{year}_uniq_track.csv'
 id_data=pd.read_csv(id_url, encoding='utf-8-sig')
-id_data=id_data.drop(columns=['Unnamed: 4', 'Unnamed: 5'])
-#拿取spotify id
-# spotify_id=list(map(lambda x:x.split(':')[2],  id_data['uri']))
-spotify_id=id_data['id']
-spotify_id=spotify_id[:626]
+columns=['id','track_name']
+id_data.columns=columns
+spotify_id=list(id_data['id'])
+# spotify_id=spotify_id[:626]
 #開始請求
 for _ in range(40):
     now_left=len(spotify_id)

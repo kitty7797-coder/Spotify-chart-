@@ -36,7 +36,7 @@ def get_search_id(spotify_id):
     
     search_id=sub_content[2]
     return search_id
-base_url="C:/Users/student/Desktop/Spotify-chart-/uniq_track/{}.csv"
+base_url="./uniq_track/{}.csv"
 url=base_url.format('2025_uniq_track')
 data=pd.read_csv(url, encoding='utf-8-sig')
 columns=['id','track_name']
@@ -44,7 +44,8 @@ data.columns=columns
 
 
 # spotify_id=list(map(lambda x:x.split(':').pop(),pre_uri))
-spotify_id=data['id']
+spotify_id=list(data['id'])
+spotigy_id=spotify_id[::-1]
 search_id=[]
 #抓search_id並寫入總表
 for _ in range(len(spotify_id)):
