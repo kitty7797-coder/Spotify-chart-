@@ -55,8 +55,8 @@ for _ in range(40):
     isrc=track_data['external_ids']['isrc']#dict
     ms=track_data['duration_ms']#int
     
-    album_type='album'
     if track_data['album']['album_type']=='album':
+        album_type='album'
         print("是專輯")
         release_date=track_data['album']['release_date']
     else:
