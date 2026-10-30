@@ -40,9 +40,14 @@ while True:
         clear_pd=clear_pd.drop(columns=['Unnamed: 0_x','Unnamed: 0_y','track_name_y',\
                                         'artist_names_y','total_stream_y',\
                                          'total_stream_x','total_on_chart_x','total_on_chart_y'])
-        
-        clear_pd.columns=['uri','artist_names','track_name','total_stream','total_on_chart']
+        #把uri清理成只有id
+        spotify_id=list(map(lambda x:x.split(':')[2], clear_pd['uri']))    
+        clear_pd['uri']=spotify_id
+            
+        clear_pd.columns=['id','artist_names','track_name','total_stream','total_on_chart']
         clear_pd.index=clear_pd.index+1
+        
+        
         #確認資訊
         clear_pd.info()
         

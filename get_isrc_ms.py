@@ -25,7 +25,8 @@ id_url=f'./uniq_track/{year}_uniq_track.2.csv'
 id_data=pd.read_csv(id_url, encoding='utf-8-sig')
 id_data=id_data.drop(columns=['Unnamed: 4', 'Unnamed: 5'])
 #拿取spotify id
-spotify_id=list(map(lambda x:x.split(':')[2],  id_data['uri']))
+# spotify_id=list(map(lambda x:x.split(':')[2],  id_data['uri']))
+spotify_id=id_data['id']
 spotify_id=spotify_id[:626]
 #開始請求
 for _ in range(40):

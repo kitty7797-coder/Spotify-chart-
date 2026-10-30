@@ -54,6 +54,6 @@ for _ in range(len(search_id)):
 #寫入csv檔案
 df.index+=1
 file_name=os.path.abspath(file_name)
-df.to_csv(file_name+'\\2023_music_feature.csv', encoding='utf-8-sig')  
+df.to_csv(file_name+'\\2023_music_feature.csv', encoding='utf-8-sig', index=False)  
     
     
