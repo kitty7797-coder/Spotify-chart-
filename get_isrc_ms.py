@@ -70,7 +70,7 @@ for _ in range(40):
     release_dates.append(release_date)
     sleep(1)
 
-new_data=pd.DataFrame({"isrc":isrcs, "release_date":release_date,
+new_data=pd.DataFrame({"isrc":isrcs, "release_date":release_dates,
                        "album_type":album_type,"duration_ms":duration_ms                       
                        })
 #isrc寫入uniq
