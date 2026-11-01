@@ -1,0 +1,48 @@
+from selenium import webdriver
+from bs4 import BeautifulSoup as bs
+import pandas as pd
+from time import sleep
+
+data=pd.read_csv('./music_detail/2023_music_detail(2).csv', index_col=False)
+filter_data=data[data['search_id'].isna()]
+#打開瀏覽器   
+driver=webdriver.Chrome()
+
+
+def get_search_id(track_isrc):
+    driver.switch_to.window(driver.window_handles[0])
+    base_url='https://api.reccobeats.com/v1/track?ids={}'
+    search_url=base_url.format(track_isrc)            
+    driver.get(search_url)
+    driver.implicitly_wait(5) 
+    # 獲取內容
+    sub_soup=bs(driver.page_source, 'lxml')
+    driver.implicitly_wait(5)
+    sub_content=sub_soup.find('pre').text
+    lst=['{','[','"',':',']','}']
+    for i in sub_content:
+        if i in lst:
+            sub_content=sub_content.replace(i, '/')
+        else:
+            continue
+        
+    sub_content=sub_content.split('/')
+    for i in sub_content:
+        if i=='':
+            sub_content.remove(i)
+    
+    search_id=sub_content[2]
+    return search_id
+    sleep(0.5)
+
+
+
+# spotify_id=list(map(lambda x:x.split(':').pop(),pre_uri))
+track_isrc=list(filter_data['isrc'])
+track_isrc=track_isrc[::-1]
+search_id=[]
+#抓search_id並寫入總表
+for _ in range(len(track_isrc)):
+    search_id.append(get_search_id(track_isrc.pop()))
+filter_data['search_id']=search_id
+filter_data.to_csv('./music_detail/left_id_2023.csv', index=False, encoding='utf-8-sig')

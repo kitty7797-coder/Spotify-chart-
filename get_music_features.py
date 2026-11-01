@@ -8,10 +8,11 @@ import os
 from time import sleep
 import pandas as pd
 # import csv
-base_url="C:/Users/student/Desktop/Spotify-chart-/uniq_track/{}.csv"
-url=base_url.format('2023_uniq_track')
-data=pd.read_csv(url, encoding='utf-8-sig')
+url="./music_detail/2023_music_detail.csv"
+data=pd.read_csv(url, encoding='utf-8-sig', index_col=False)
 search_id=list(data['search_id'])
+#因為用pop所以先反過來
+search_id=search_id[::-1]
 wrong_data=[]
 #打開瀏覽器   
 driver=webdriver.Chrome()
@@ -35,6 +36,7 @@ def get_music_features(search_id):
     #利用json.loads直接把string內容轉譯成dict
     driver.implicitly_wait(10) 
     return final_content
+    sleep(1)
 
 
 #抓music_features
@@ -45,10 +47,12 @@ for _ in range(len(search_id)):
         if len(search_id)==0:
             break
         final_content=get_music_features(search_id.pop())
-        df.loc[len(df)]=final_content       
+        df.loc[len(df)]=final_content 
+        sleep(0.5)
     except Exception as er:
-        wrong_data.append(er)
-        sleep(3)
+        wrong_data.append(data['track_name'])
+        print('錯誤代碼'+er)
+        sleep(1)
         df.loc[len(df)]={"id":"","href":"","isrc":"","acousticness":0,"danceability":0,"energy":0,"instrumentalness":0,"key":-1,"liveness":0,"loudness":0,"mode":0,"speechiness":0,"tempo":0,"valence":0}
         continue
 #寫入csv檔案

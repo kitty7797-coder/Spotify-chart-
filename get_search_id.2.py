@@ -1,21 +1,22 @@
 from selenium import webdriver
 from bs4 import BeautifulSoup as bs
-import os
+# import os
 import pandas as pd
+from time import sleep
 # import csv
 
 wrong_data=[]
 #打開瀏覽器   
 driver=webdriver.Chrome()
 #建立資料夾
-file_name='./music_feature'
-if not os.path.exists(file_name):
-    os.mkdir(file_name)
+# file_name='./music_feature'
+# if not os.path.exists(file_name):
+#     os.mkdir(file_name)
 
-def get_search_id(spotify_id):
+def get_search_id(track_isrc):
     driver.switch_to.window(driver.window_handles[0])
     base_url='https://api.reccobeats.com/v1/track?ids={}'
-    search_url=base_url.format(spotify_id)            
+    search_url=base_url.format(track_isrc)            
     driver.get(search_url)
     driver.implicitly_wait(5) 
     # 獲取內容
@@ -36,19 +37,18 @@ def get_search_id(spotify_id):
     
     search_id=sub_content[2]
     return search_id
-base_url="./uniq_track/{}.csv"
-url=base_url.format('2025_uniq_track')
-data=pd.read_csv(url, encoding='utf-8-sig')
-columns=['id','track_name']
-data.columns=columns
+    sleep(0.5)
+year=eval(input())
+url=f"./music_detail/{year}_music_detail.csv"
+data=pd.read_csv(url, encoding='utf-8-sig', index_col=False)
 
 
 # spotify_id=list(map(lambda x:x.split(':').pop(),pre_uri))
-spotify_id=list(data['id'])
-spotigy_id=spotify_id[::-1]
+track_isrc=list(data['isrc'])
+track_isrc=track_isrc[::-1]
 search_id=[]
 #抓search_id並寫入總表
-for _ in range(len(spotify_id)):
-    search_id.append(get_search_id(spotify_id.pop()))
+for _ in range(len(track_isrc)):
+    search_id.append(get_search_id(track_isrc.pop()))
 data['search_id']=search_id
 data.to_csv(url, index=False, encoding='utf-8-sig')
