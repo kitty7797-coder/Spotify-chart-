@@ -22,9 +22,10 @@ while len(mon_lst)!=0:
 
 
 file_name='./uniq_track'
+save_name=f'/{year}_uniq_track.csv'
 if not os.path.exists(file_name):
     os.mkdir(file_name)
-with open(file_name+'/2022_uniq_track.csv','w', encoding='utf-8-sig', newline='')as fn:
+with open(file_name+save_name,'w', encoding='utf-8-sig', newline='')as fn:
     writer=csv.writer(fn)
     writer.writerows(i for i in track)
     

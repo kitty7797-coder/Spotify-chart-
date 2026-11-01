@@ -26,8 +26,15 @@ while True:
     try:
         data1=pd.read_csv(file)
         data2=pd.read_csv(file2)
-                
-        clear_pd=pd.merge(data1,data2, on='uri',how='outer')
+        
+        #整理資料二
+        spotify_id=list(map(lambda x:x.split(':')[2], data2['uri']))    
+        data2['uri']=spotify_id
+        
+        columns=['Unnamed: 0','id','artist_names','track_name','total_stream','total_on_chart']
+        data2.columns=columns
+        
+        clear_pd=pd.merge(data1,data2, on='id',how='outer')
         data1.info()
         
         #將空的X值填入y的內容 
@@ -45,8 +52,7 @@ while True:
                                          'total_stream_x','total_on_chart_x','total_on_chart_y'])
         
         #把uri清理成只有id
-        spotify_id=list(map(lambda x:x.split(':')[2], clear_pd['uri']))    
-        clear_pd['uri']=spotify_id
+        
             
         clear_pd.columns=['id','artist_names','track_name','total_stream','total_on_chart']
         clear_pd.index=clear_pd.index+1
