@@ -35,7 +35,7 @@ now_left=len(spotify_id)
 while len(spotify_id)!=0:
     
     if order=='88888888':
-        print('先休息一下')
+        print('下次再來吧!')
         break
     for _ in range(40):        
         ids=spotify_id.pop()
