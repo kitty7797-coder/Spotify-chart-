@@ -28,11 +28,12 @@ id_data=pd.read_csv(id_url, encoding='utf-8-sig')
 columns=['id','track_name']
 id_data.columns=columns
 spotify_id=list(id_data['id'])
-spotify_id=spotify_id[:2192]
+spotify_id=spotify_id[:1752]
 order=0
+now_left=len(spotify_id)
 #開始請求
 while len(spotify_id)!=0:
-    now_left=len(spotify_id)
+    
     if order=='88888888':
         print('先休息一下')
         break
@@ -85,13 +86,14 @@ while len(spotify_id)!=0:
         release_dates.append(release_date)
         track_name.append(track_data['name'])
         track_id.append(track_data['id'])
-        sleep(1)
+        sleep(3)
     
         new_data=pd.DataFrame({"id":track_id,"track_name":track_name,
                                "isrc":isrcs, "release_date":release_dates,
                                "album_type":album_types,"duration_ms":duration_ms,
                                
                                })
+    now_left=len(spotify_id)
     print(f'還剩下{now_left}個檔案')
     order=input("隨意輸入數字，這是用來讓迴圈不會走太快，八個八結束迴圈:")    
 #isrc寫入uniq
