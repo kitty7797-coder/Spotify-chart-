@@ -64,7 +64,7 @@ id,track_name,isrc,release_date,album_type,duration_ms,search_id
 5IAESfJjmOYu7cHyX557kz,Take Two,USA2P2323050,2023-06-09,single,229953,071706be-748c-4124-b854-8d6a816580cd
 2fKc4ptqI3fBB4apuuu608,晴時多雲偶想你,TWHE52300001,2023-06-02,single,288200,21462d58-8320-47d6-b62c-f0913dcfce67
 01qFKNWq73UfEslI0GvumE,3D (feat. Jack Harlow),USA2P2346470,2023-10-02,album,201812,16c520fe-3e9c-4213-a9fe-01528f49eefc
-2yjeXq5ahx6UUg2rHaUe6X,"Angel Pt. 2 (feat. Jimin of BTS, Charlie Puth and Muni Long)",QZVFR2301435,2023-05-18,single,176454,5231dd09-a66c-4e07-8997-fd6705aa9f5b
+2yjeXq5ahx6UUg2rHaUe6X,"Angel Pt. 2 (feat. Jimin of BTS Charlie Puth and Muni Long)",QZVFR2301435,2023-05-18,single,176454,5231dd09-a66c-4e07-8997-fd6705aa9f5b
 0O6u0VJ46W86TxN9wgyqDj,I Like You (A Happier Song) (with Doja Cat),USUM72208023,2022-06-03,album,192840,65eabc43-d3a9-44a5-94d7-5a31cfa22fe5
 1XnpzbOGptRwfJhZgLbmSr,Pretty Savage,KRA402000133,2020-10-02,album,201122,57d1b049-0494-4960-a28c-beaa29f6fee7
 0QZ5ixTvCuUbqfRN7x5jK4,聖誕星 (feat. 楊瑞代),TWK972301101,2023-12-21,single,182727,b5bf26a8-7c5b-4738-a53e-6af5cfdca8ba
@@ -122,7 +122,7 @@ id,track_name,isrc,release_date,album_type,duration_ms,search_id
 46IZ0fSY2mpAiktS3KOqds,Easy On Me,USSM12105970,2021-11-19,album,224694,2587f836-caf2-44e1-b3f1-50015595fc03
 6Q1Ekf6C8V0e7aOCymgscs,"Don't Wanna Lie (feat. 8lak, Hosea)",TWL252007101,2020-10-23,album,175144,67857572-d1a9-40c7-86b3-73cfcebbe1be
 5GmnGrReneQorGsGtY4nt0,真心話,TWA452300030,2023-06-19,single,243726,d66dfc28-33b8-40bc-bb47-2548f0b49218
-4j3M8NrbGSXdMPwEVsnfHE,"Snooze (feat. Ryuichi Sakamoto, WOOSUNG of The Rose)",USA2P2310698,2023-04-21,album,264760,
+4j3M8NrbGSXdMPwEVsnfHE,"Snooze (feat. Ryuichi Sakamoto WOOSUNG of The Rose)",USA2P2310698,2023-04-21,album,264760,
 5h1BN75CEh8wdSwE1xrbSe,Slow Dancing,USA2P2339031,2023-09-08,single,187026,88acea51-63df-499d-9523-810623e4ca01
 14GFYAUxkeXranhS2qrYIZ,我想要佔據你,TWK232314803,2023-02-14,album,252637,bb5042c9-e92f-45f8-bdb4-9292ac69a998
 76UXxB4NOsMLZqBQs0pBO5,但,TWKH12300011,2023-05-12,single,142266,cfd2e9ad-d229-4f2b-93c3-71dd595fca69
@@ -175,7 +175,7 @@ id,track_name,isrc,release_date,album_type,duration_ms,search_id
 6wf7Yu7cxBSPrRlWeSeK0Q,"What Was I Made For? [From The Motion Picture ""Barbie""]",USUM72307484,2023-07-13,single,222369,42de082d-e948-423d-94ca-d8e613e5e552
 2IGMVunIBsBLtEQyoI1Mu7,Paint The Town Red,USRC12300907,2023-08-04,single,231750,5b27246d-1595-46ac-ae79-013ddf76a0b7
 57ep1vygRWPQCeFx4pqsuO,金黃色的,TWBF32304001,2023-04-07,single,285903,2b3d9f37-9f82-4974-9926-78281ba15109
-5rurggqwwudn9clMdcchxT,"Calling (Spider-Man: Across the Spider-Verse) (Metro Boomin & Swae Lee, NAV, feat. A Boogie Wit da Hoodie)",USUM72308543,2023-06-02,album,219453,0674733b-5d72-4590-a86d-6b0fb1e9aef1
+5rurggqwwudn9clMdcchxT,"Calling (Spider-Man: Across the Spider-Verse) (Metro Boomin & Swae Lee NAV, feat. A Boogie Wit da Hoodie)",USUM72308543,2023-06-02,album,219453,0674733b-5d72-4590-a86d-6b0fb1e9aef1
 5r49HwlQM09MC7StuvwP42,CRAZY STUPID LOVE,US5TA2300009,2023-03-10,album,169613,8c7d4c12-29cb-4824-80ea-b23c2f5a9f68
 4elhQCXOKEDhgFgE3Yxc8Q,沿海地帶,TWI430600204,2006-10-30,album,211356,e9119668-1f6d-4f09-9370-8a323b23c792
 39tpfLHvnzXk4f8iD0htkn,掉了,TWEM30904004,2009-06-26,album,237560,f2ca6027-e680-491e-af43-c88924731f00
@@ -196,7 +196,7 @@ id,track_name,isrc,release_date,album_type,duration_ms,search_id
 0a4MMyCrzT0En247IhqZbD,Hype Boy,USA2P2230222,2022-08-01,single,179026,c3018a61-fdd0-4b0b-a8e0-024012e3e532
 0bMoNdAnxNR0OuQbGDovrr,ANTIFRAGILE,USA2P2230329,2023-05-01,album,184444,e4285b7e-a1e9-4ff3-a6c3-01694254e7a2
 5FbxrTeMrO3zbLe3uLbYH7,你不會一輩子的愛上我,HKC992300408,2023-11-03,single,197307,726d48b4-8242-4d7e-acac-20186b99d3e7
-43mnNatwMMydJ4CxMdQVnJ,"Farewell, Neverland",USA2P2243435,2023-01-27,single,180676,13986896-f25a-4930-8752-bd379d698871
+43mnNatwMMydJ4CxMdQVnJ,"Farewell Neverland",USA2P2243435,2023-01-27,single,180676,13986896-f25a-4930-8752-bd379d698871
 2C3Gsy6HgWQAEm4qaqhgVQ,Man I Am (From Barbie The Album),USAT22307196,2023-07-21,single,187764,a08c5e43-be5a-4fd0-97ee-4145d4cd8c28
 2RUcwyW74Sv4VracHFrKdh,Promise,QM4TW1971528,2018-12-31,single,151011,ef4705c3-35da-4d80-abfc-9f80e4d47139
 4cktbXiXOapiLBMprHFErI,Memories,USUM71913350,2021-06-11,album,189486,a2ed17c2-3633-4818-b59a-c430f0a88763
@@ -264,7 +264,7 @@ id,track_name,isrc,release_date,album_type,duration_ms,search_id
 1wUnuiXMMvhudmzvcCtlZP,Get Up,USA2P2330073,2023-07-21,single,36226,905e1321-218e-467b-8118-47bcf5e102c4
 4VGvaHir2FQ4WMKn3GS9AS,願與愁,TWU712301138,2023-04-14,single,231586,509ae091-5c53-4e1b-8141-91398cdb3e8c
 2i8f4VnnBjy0yDqH2C452a,bad idea right?,USUG12304094,2023-08-11,single,184783,9775d9d4-a8da-4382-9911-9415c22f169a
-1XkaiiA1izzcVhVuhB532l,"我不是神 , 我只是平凡卻直拗愛著你的人",TWD952334101,2023-04-14,single,299863,088d3ef4-a5b3-4d42-b747-819e2b5b1088
+1XkaiiA1izzcVhVuhB532l,"我不是神  我只是平凡卻直拗愛著你的人",TWD952334101,2023-04-14,single,299863,088d3ef4-a5b3-4d42-b747-819e2b5b1088
 5VymCvfV0FguCa7zrIPSgk,毒藥,TWK232283290,2022-05-17,album,205218,70b6b6a5-6a2d-412a-8564-a1c17357fcc9
 27bIik73QCu8Xzt3xpG1bI,Candy,KRA302200259,2022-12-16,single,217066,361c24a1-f0ac-4efa-ba92-453035dbc214
 1ZSleGniKMWNrWvK5cGALO,路過人間 (電視劇《我們與惡的距離》插曲),TWD951892102,2019-05-03,album,247132,533b2d6a-1405-4497-a17d-403968a30346
@@ -323,7 +323,7 @@ id,track_name,isrc,release_date,album_type,duration_ms,search_id
 3y3175OM52bdhGe98p2JIv,外人,TWK232283410,2022-12-11,single,275500,15ef1649-c798-4366-b670-b7bb3764eb87
 5vqYJFxGOZ2nfdR1YpwI74,后继者,FRX201612913,2016-11-23,single,242660,44f07e7b-1338-4f22-8f09-7830a752e056
 6XBL9naPxZjATbmGAWGJ9V,飞鸟和蝉,FRX202049621,2021-07-27,album,296006,f11addc9-3967-4aa3-b3c1-fcfd4746729e
-7CyPwkp0oE8Ro9Dd5CUDjW,"One Of The Girls (with JENNIE, Lily Rose Depp)",USUG12303881,2023-06-23,single,244684,1539ffae-748f-4ecc-b30b-874b3236c2db
+7CyPwkp0oE8Ro9Dd5CUDjW,"One Of The Girls (with JENNIE Lily Rose Depp)",USUG12303881,2023-06-23,single,244684,1539ffae-748f-4ecc-b30b-874b3236c2db
 31RIphTQ9y4zStkH5xRWgW,一路向北,TWK970500902,2005-11-01,album,294240,363d1e65-ab0e-4f11-b436-b315cdc49ba2
 7LpMG3AEaIJgs62HQhAa91,i'm so tired...,GBKPL1933763,2020-03-06,album,162586,88b3230d-e5ed-4c2f-97e8-6ab0ef2abe9b
 5OehhztxLfJeCxUMbFfPy6,Broken Melodies,KRA302300198,2023-06-19,single,226160,36928821-64a6-41b7-b72c-895d27183896
@@ -351,7 +351,7 @@ id,track_name,isrc,release_date,album_type,duration_ms,search_id
 4JUPEh2DVSXFGExu4Uxevz,Ice Cream (with Selena Gomez),KRA402000131,2020-10-02,album,177813,04757f95-9b3f-4623-8234-9f0d78c83a5c
 1hT86g2KE4982nzi9NfrrO,墮落 (feat. Buddha Jump 佛跳牆),TWJ012300706,2023-08-25,album,258713,87ec567d-eb07-4e40-97dd-ef34602d90c2
 5WeLzVi9RxI22FrvtVKRSW,癡心無名氏,TWUM72300044,2023-03-14,single,231979,5f20c48a-d4a4-47a7-b1a5-7a767dec7a80
-4QhnNyKDsAkXPwHkSnuc89,"Eve, Psyche & The Bluebeard’s wife",USA2P2310665,2023-05-01,album,185538,ba3b9a27-256e-4715-85ce-9a4d680287ce
+4QhnNyKDsAkXPwHkSnuc89,"Eve Psyche & The Bluebeard’s wife",USA2P2310665,2023-05-01,album,185538,ba3b9a27-256e-4715-85ce-9a4d680287ce
 1qRfAvzRIJQodWKBNFAb6C,"Smoke (Prod. Dynamicduo, Padi)",KRA492300792,2023-09-05,single,209546,5644e36f-1dc4-4ec8-b1d6-555ec3aad9a4
 5cSpLa9JzWalPQ0yktfrWf,Party O'Clock,US5TA2300065,2023-07-11,single,183546,74a09629-8e61-4f3d-b471-07bac93e0d60
 7rXcCpIAoOUCydkVDMcoPV,INVU,KRA302200026,2022-02-14,album,204973,b9e625d6-4d5f-43ed-a4e0-214ca84c599c
@@ -397,7 +397,7 @@ id,track_name,isrc,release_date,album_type,duration_ms,search_id
 5xP9lQYA8YQmQh6BOxcAnR,Popular (with Playboi Carti & Madonna) - From The Idol Vol. 1 (Music from the HBO Original Series),USUG12303876,2023-06-02,single,215466,bbbab7cb-f7bf-41db-9fe2-8c28f7d42076
 1TQXIltqoZ5XXyfCbAeSQQ,Dancing With Your Ghost,USRC11901644,2019-06-28,single,197732,47fc0dff-371c-4018-8b26-b6823be76e5e
 41JPN7pZMTp1sumBOHOzHd,People Pt.2 (feat. IU),USA2P2310695,2023-04-21,album,213995,05251601-e692-46d9-b1d9-0f011bc9027c
-4nrPB8O7Y7wsOCJdgXkthe,"Shakira: Bzrp Music Sessions, Vol. 53/66",UYB282301031,2023-01-11,single,214945,fd2c5608-9728-4224-9a45-dc549fd0b198
+4nrPB8O7Y7wsOCJdgXkthe,"Shakira: Bzrp Music Sessions Vol. 53/66",UYB282301031,2023-01-11,single,214945,fd2c5608-9728-4224-9a45-dc549fd0b198
 6n5M2Al3QgTScpO4AZH9OI,Diamond Days,USA2P2345252,2023-10-23,album,205866,a979f0ba-4f87-47eb-a0f8-935d68b767e6
 2IllZMWIwCi45ZXmm1VXBz,若我告訴你其實我愛的只是你,TWFF32300001,2023-02-22,single,245666,bb23a478-5db4-45ed-b09d-5de3f0a21191
 1VoTe7qVyqyMNLgZpQeugO,祝福,JPP302200613,2023-10-04,album,192400,5d439047-c655-4d23-a3a2-6aa59bcaed69
@@ -529,7 +529,7 @@ id,track_name,isrc,release_date,album_type,duration_ms,search_id
 2tpWsVSb9UEmDRxAl1zhX1,Counting Stars,USUM71301306,2013-01-01,album,257265,a59d081f-4750-40b4-8d91-99d0e26c6291
 60PL1vtOCFBXwwZeQlVHN9,毒药,DGA062382543,2023-07-25,single,215535,4e7cddae-7747-4e9f-860d-bdcfd08686cf
 5JaPBs2aQjEfLwM5kVb4jq,思念是一種病,TWA450789901,2007-07-06,album,255721,51ba0ed5-df05-45f8-aea9-561e45888452
-2s2PGt2yeQly8auhPuHGIn,"Young, Dumb, Stupid",US5TA2200194,2023-03-12,single,190786,15734966-b3ac-4462-821a-729387cceab0
+2s2PGt2yeQly8auhPuHGIn,"Young Dumb Stupid",US5TA2200194,2023-03-12,single,190786,15734966-b3ac-4462-821a-729387cceab0
 0QMtpUJcjt7IEl7FFSd8AJ,查無此心 - 《查無此心》電影主題曲,TWA472314001,2023-08-15,single,278000,f83c2972-5dae-4dfd-a8f7-29b0c05c7463
 0q1FMCm6hZhyPomad3LQES,So Bad,TWCC32005969,2020-08-10,single,172118,87aadb4c-6e7a-48ee-9276-6357e91cc6c1
 5R3KGS53DCrlbi6cxECAEH,無人知曉,TWEW72001008,2020-09-25,album,288733,3ab2584e-629d-43d7-adcb-1c80d75a6701
@@ -565,7 +565,7 @@ id,track_name,isrc,release_date,album_type,duration_ms,search_id
 49AQAXswd32dFJUWOegVWO,Last Dance,TWB879601806,1996-06-18,album,271533,86a5260e-be14-4a1d-aa4b-7305adadbad1
 0nCoNIXHnbQdHWex9eua90,鮮花 - 现场,HKE022211426,2023-10-06,album,465472,b5236520-3464-416c-9fbb-dd8a6166a58f
 5DSF1VTSaaAFIesJLlltuM,紅色高跟鞋,TWJ010900504,2009-08-19,album,206586,765485c3-3f18-4d33-acf4-f6121b2cc9f2
-5ZiMscIUd9Gozq4JFPnlJQ,"起風了 (電視劇《加油, 你是最棒的》主題曲)",CNE221900842,2019-01-18,single,313565,
+5ZiMscIUd9Gozq4JFPnlJQ,"起風了 (電視劇《加油 你是最棒的》主題曲)",CNE221900842,2019-01-18,single,313565,
 5vYF35h9hdvYWfCL3Zb8Xj,你說這叫天秤座但你喜歡,DGA072379784,2023-08-18,album,196750,1d25709c-a3fa-4d63-b8f0-dffcaf2170e4
 11DUHbs4Vu8M7ppePmszse,誰,TWEL51818001,2018-08-31,single,251076,72b9ec81-b019-4f3e-9498-d819441c4e10
 7q0aUtx8LsnYpshwqjzkhQ,你愛上的我,TWO171100003,2011-11-01,album,261213,2bf3208e-7cec-4aef-953e-1bd43311da73
@@ -599,7 +599,7 @@ id,track_name,isrc,release_date,album_type,duration_ms,search_id
 7kaFsQygyiCqRboWCXztxZ,Do It Like That,USA2P2330060,2023-07-07,single,145065,f597357e-16b5-457a-8d0a-07c9b9cdc346
 3uMO7jmdXxwSijvxNXDgE4,Overdrive,USUM72306020,2023-07-28,album,147679,b38d8c1e-cdd2-475c-b83b-2d67c9f8a9d6
 1n3TbqMfvALAI0BjtiF6Lt,他一定很愛你,1n3TbqMfvALAI0BjtiF6Lt,,,,c42a98b5-0d48-4b1f-a0a6-aac60a85c3a2
-4ShkvWmheGbOXeJ5ELYRoH,"Someday, Somewhere (Netflix影集《此時此刻》主題曲)",TWA532300498,2023-10-31,single,243976,6e764458-72e4-4b0e-8576-861e89898f00
+4ShkvWmheGbOXeJ5ELYRoH,"Someday Somewhere (Netflix影集《此時此刻》主題曲)",TWA532300498,2023-10-31,single,243976,6e764458-72e4-4b0e-8576-861e89898f00
 7mFemsen8hkEoC5a4qeD6C,圍牆,TWJ970700507,2007-10-12,album,199444,2002c1c6-395f-4fd4-9bee-4d7a9919b0ea
 43Pmqpiw4zFY77pT5QdxQ8,ISTJ,KRA302300210,2023-07-17,album,185280,43dd311e-d2b4-45b3-ba3e-ee7796893a5b
 3uvoZKtpufJ9F2ETKGPlh5,又到天黑,TWK232314801,2023-01-21,single,290631,3678f6f7-51ef-445e-9ba3-48f3f4c5ee61
@@ -613,7 +613,7 @@ id,track_name,isrc,release_date,album_type,duration_ms,search_id
 5zpFUmekUFVlDjKDTuCbtl,白日夢,TWKH12300006,2023-05-20,album,224626,a2d10338-7055-4c3a-b9ef-6a974cce64ff
 5nQCxF5H1f0XcEWeaRVUED,遺憾,TWI430900304,2009-10-16,album,230608,2e4d1350-fecf-46c2-91a0-7634f115bbeb
 6rdkCkjk6D12xRpdMXy0I2,New Jeans,USA2P2330067,2023-07-07,single,108986,9fc56704-7a5b-486d-9aa4-67a9ed18b051
-6Ec5LeRzkisa5KJtwLfOoW,"Am I Dreaming (Metro Boomin & A$AP Rocky, Roisee)",USUM72308540,2023-06-02,album,256026,7962cc8c-d853-4a2f-b733-6efe6c0c8fce
+6Ec5LeRzkisa5KJtwLfOoW,"Am I Dreaming (Metro Boomin & A$AP Rocky Roisee)",USUM72308540,2023-06-02,album,256026,7962cc8c-d853-4a2f-b733-6efe6c0c8fce
 7ovUSP7jWkzWR2SHptYJfd,你被寫在我的歌裡,TWF671100103,2011-11-11,album,275493,a8be7c21-6b95-4437-a795-84cfbac6649c
 04colE4oJt50AHwFhrT57v,我的秘密,HKI111000207,2010-10-22,album,248486,30724108-e155-44cb-93de-6db3e822c54a
 3AOf6YEpxQ894FmrwI9k96,Super,USA2P2310675,2023-04-24,single,200386,96364a04-e7a3-4a94-b37b-091e710f9c1e
@@ -644,10 +644,10 @@ id,track_name,isrc,release_date,album_type,duration_ms,search_id
 3cyscAaE8AjBqK1Va1hSWf,唯一 (諾亞方舟 10週年進化),TWK232300205,2023-06-19,single,281500,1ffe4a1e-fcc5-4c78-9c4b-5ff94cf1e44d
 7qmvLmX9tyaTiBAVNI6YEn,PLAYING WITH FIRE,KRA401600236,2016-11-01,single,197288,473015c2-c04a-415a-9f03-f369e99d7089
 1J707Wskr4x6JO9QwhiCm4,我睡不著,TWCH51900001,2020-08-14,album,199586,ebdf7300-897a-456a-917a-658ceb419821
-05QUYSOApWLr8oBbpONl7p,"24/7, 365",QZNWU2345439,2023-07-24,single,167000,95da095f-7760-4699-a7db-2bfea5248536
+05QUYSOApWLr8oBbpONl7p,"24/7 365",QZNWU2345439,2023-07-24,single,167000,95da095f-7760-4699-a7db-2bfea5248536
 15ELObT3DaSGLdtAfwZqZi,過完冬季,TWA479801001,1998-01-19,album,323693,0fb65948-05cb-48bd-9259-4d403919c860
 2fc2vUA5H3mTAr9rQoBDKt,愛我別走,TWB879804807,1998-12-11,album,284466,71a7e253-778f-4d06-896b-e5bfec2d7bbd
-1vvcEHQdaUTvWt0EIUYcFK,"Angel Pt. 1 (feat. Jimin of BTS, JVKE & Muni Long)",QZVFR2301300,2023-05-17,single,175802,8fde5898-ac87-4d2b-9bed-d90396602c1b
+1vvcEHQdaUTvWt0EIUYcFK,"Angel Pt. 1 (feat. Jimin of BTS JVKE & Muni Long)",QZVFR2301300,2023-05-17,single,175802,8fde5898-ac87-4d2b-9bed-d90396602c1b
 0c9gjnRGBRke9VmLaZWmhM,爱怎么了,HKG732203649,2022-04-27,single,239076,7cbe84b1-e328-4fc8-a3c7-1498c1e17dbb
 4h9wh7iOZ0GGn8QVp4RAOB,I Ain't Worried,USUM72206227,2022-05-13,single,148485,09f1ff7d-545d-4b8b-b4ab-b8c29bf348c4
 2DwUdMJ5uxv20EhAildreg,Cookie,USA2P2230223,2022-08-01,single,235562,7b28dafa-2bd9-4833-b71a-9c0acc811c97
