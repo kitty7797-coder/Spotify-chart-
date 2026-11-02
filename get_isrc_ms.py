@@ -28,7 +28,7 @@ id_data=pd.read_csv(id_url, encoding='utf-8-sig')
 columns=['id','track_name']
 id_data.columns=columns
 spotify_id=list(id_data['id'])
-spotify_id=spotify_id[:1752]
+spotify_id=spotify_id[:1591]
 order=0
 now_left=len(spotify_id)
 #開始請求
