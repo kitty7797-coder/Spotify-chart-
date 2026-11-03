@@ -23,12 +23,13 @@ token=content['access_token']
 
 #讀取要要求的id檔案
 year=input()
+left_num=eval(input("請輸入剩餘的檔案數量:"))
 id_url=f'./uniq_track/{year}_uniq_track.csv'
 id_data=pd.read_csv(id_url, encoding='utf-8-sig')
 columns=['id','track_name']
 id_data.columns=columns
 spotify_id=list(id_data['id'])
-spotify_id=spotify_id[:1591]
+spotify_id=spotify_id[:left_num]
 order=0
 now_left=len(spotify_id)
 #開始請求
