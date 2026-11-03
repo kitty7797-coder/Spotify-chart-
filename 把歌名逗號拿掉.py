@@ -1,7 +1,11 @@
 import pandas as pd
 
-url='./music_detail/2023_music_detail(2).csv'
+url='./uniq_track/all_uniq_track.csv'
 data=pd.read_csv(url)
+
+columns=['id','track_name']
+data.columns=columns
+
 
 name=list(data['track_name'])
 new_name=[]
@@ -13,4 +17,4 @@ for i in name:
             
 data['track_name']=new_name
 
-data.to_csv('./music_detail/2023_music_detail(3).csv', index=False)
+data.to_csv('./uniq_track/all_uniq_track(2).csv', index=False)
