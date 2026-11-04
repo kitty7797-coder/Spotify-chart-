@@ -23,7 +23,7 @@ token=content['access_token']
 
 #讀取要要求的id檔案
 year=input()
-left_num=eval(input("請輸入剩餘的檔案數量:"))
+left_num=eval(input('輸入剩下的資料數:'))
 id_url=f'./uniq_track/{year}_uniq_track.csv'
 id_data=pd.read_csv(id_url, encoding='utf-8-sig')
 columns=['id','track_name']
