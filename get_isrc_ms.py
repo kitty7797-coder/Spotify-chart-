@@ -38,7 +38,7 @@ while len(spotify_id)!=0:
     if order=='88888888':
         print('下次再來吧!')
         break
-    for _ in range(40):        
+    for _ in range(30):        
         ids=spotify_id.pop()
         url=f"https://api.spotify.com/v1/tracks/{ids}"
         headers={
@@ -58,7 +58,7 @@ while len(spotify_id)!=0:
         else:
             print(f"請求失敗，狀態碼{response.status_code}")
             print(response.text)
-            print(f"到{+now_left}停止運作")
+            
             break
         sleep(1)
         #擷取資料
@@ -95,7 +95,7 @@ while len(spotify_id)!=0:
                                
                                })
     now_left=len(spotify_id)
-    print(f'還剩下{now_left}個檔案')
+    print(f'還剩下{now_left+1}個檔案')
     order=input("隨意輸入數字，這是用來讓迴圈不會走太快，八個八結束迴圈:")    
 #isrc寫入uniq
 file="./music_detail"
