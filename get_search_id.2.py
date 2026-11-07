@@ -1,9 +1,7 @@
 from selenium import webdriver
 from bs4 import BeautifulSoup as bs
-# import os
 import pandas as pd
 from time import sleep
-# import csv
 
 wrong_data=[]
 #打開瀏覽器   
@@ -43,7 +41,6 @@ url=f"./music_detail/{year}_music_detail.csv"
 data=pd.read_csv(url, encoding='utf-8-sig', index_col=False)
 
 
-# spotify_id=list(map(lambda x:x.split(':').pop(),pre_uri))
 track_isrc=list(data['isrc'])
 track_isrc=track_isrc[::-1]
 search_id=[]

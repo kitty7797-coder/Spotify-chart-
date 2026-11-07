@@ -1,3 +1,8 @@
+#=================
+#  因為有空值才又寫了一個
+#  抓全部請用.2的檔案
+#=================
+
 from selenium import webdriver
 from bs4 import BeautifulSoup as bs
 import pandas as pd

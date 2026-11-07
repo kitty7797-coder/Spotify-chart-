@@ -74,13 +74,11 @@ while len(spotify_id)!=0:
         
         if track_data['album']['album_type']=='album':
             album_type='album'
-            print("是專輯")
             release_date=track_data['album']['release_date']
         else:
-            print('是單曲')
             album_type='single'
             release_date=track_data['album']['release_date']
-        
+        print(track_data['name'])
         isrcs.append(isrc)
         duration_ms.append(ms)
         album_types.append(album_type)
