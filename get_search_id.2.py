@@ -35,8 +35,8 @@ def get_search_id(track_isrc):
     
     search_id=sub_content[2]
     return search_id
-    sleep(0.5)
-year=eval(input())
+    
+year=input('輸入檔案名稱:')
 url=f"./music_detail/{year}_music_detail.csv"
 data=pd.read_csv(url, encoding='utf-8-sig', index_col=False)
 
@@ -47,5 +47,6 @@ search_id=[]
 #抓search_id並寫入總表
 for _ in range(len(track_isrc)):
     search_id.append(get_search_id(track_isrc.pop()))
+    sleep(2)
 data['search_id']=search_id
 data.to_csv(url, index=False, encoding='utf-8-sig')
