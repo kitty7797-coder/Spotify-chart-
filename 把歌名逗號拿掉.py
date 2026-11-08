@@ -1,11 +1,10 @@
 import pandas as pd
 
-url='./uniq_track/all_uniq_track.csv'
+url='./music_feature/full_music_features.csv'
 data=pd.read_csv(url)
 
-columns=['id','track_name']
-data.columns=columns
-
+data=data.drop_duplicates(subset=['isrc'])
+data=data.drop(columns=['name'])
 
 name=list(data['track_name'])
 new_name=[]
@@ -17,4 +16,4 @@ for i in name:
             
 data['track_name']=new_name
 
-data.to_csv('./uniq_track/all_uniq_track(2).csv', index=False)
+data.to_csv('./music_feature/full_music_features.csv', index=False,encoding='utf-8-sig')
