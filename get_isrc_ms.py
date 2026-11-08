@@ -99,7 +99,7 @@ while len(spotify_id)!=0:
 file="./music_detail"
 if not os.path.exists(file):
     os.mkdir(file)
-save_name="left_music_detail.csv"    
+save_name="filter_music_detail.csv"    
 if not os.path.exists(file+'/'+save_name):
     print('檔案不存在')
     new_data.to_csv(file+'/'+save_name, index=False)
