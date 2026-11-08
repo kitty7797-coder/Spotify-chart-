@@ -8,7 +8,7 @@ import os
 from time import sleep
 import pandas as pd
 # import csv
-url="./music_detail/2023_music_detail.csv"
+url="./music_detail/left_music_detail(2).csv"
 data=pd.read_csv(url, encoding='utf-8-sig', index_col=False)
 search_id=list(data['search_id'])
 #因為用pop所以先反過來
@@ -36,7 +36,6 @@ def get_music_features(search_id):
     #利用json.loads直接把string內容轉譯成dict
     driver.implicitly_wait(10) 
     return final_content
-    sleep(1)
 
 
 #抓music_features
@@ -48,7 +47,7 @@ for _ in range(len(search_id)):
             break
         final_content=get_music_features(search_id.pop())
         df.loc[len(df)]=final_content 
-        sleep(0.5)
+        sleep(2)
     except Exception as er:
         wrong_data.append(data['track_name'])
         print('錯誤代碼'+er)
@@ -58,6 +57,6 @@ for _ in range(len(search_id)):
 #寫入csv檔案
 df.index+=1
 file_name=os.path.abspath(file_name)
-df.to_csv(file_name+'\\2023_music_feature.csv', encoding='utf-8-sig', index=False)  
+df.to_csv(file_name+'\\left_music_feature.csv', encoding='utf-8-sig', index=False)  
     
     
