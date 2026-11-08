@@ -8,7 +8,7 @@ import os
 from time import sleep
 import pandas as pd
 # import csv
-url="./music_detail/left_music_detail(2).csv"
+url="./music_detail/filter_music_detail.csv"
 data=pd.read_csv(url, encoding='utf-8-sig', index_col=False)
 search_id=list(data['search_id'])
 #因為用pop所以先反過來
@@ -57,6 +57,6 @@ for _ in range(len(search_id)):
 #寫入csv檔案
 df.index+=1
 file_name=os.path.abspath(file_name)
-df.to_csv(file_name+'\\left_music_feature.csv', encoding='utf-8-sig', index=False)  
+df.to_csv(file_name+'\\filter_music_feature.csv', encoding='utf-8-sig', index=False)  
     
     

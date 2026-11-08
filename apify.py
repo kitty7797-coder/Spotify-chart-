@@ -5,10 +5,10 @@ from apify_client import ApifyClient
 import pandas as pd
 
 #匯入資料
-ori_data=pd.read_csv('./music_detail/na_left_detail.csv', index_col=False)
+ori_data=pd.read_csv('./music_detail/filter_music_detail.csv', index_col=False)
 spotify_id=list(ori_data['id'])[::-1]
 full_dict={'name':[], 'href':[],'isrc':[],
-           'daceability':[],'energy':[],'instrumentalness':[]
+           'danceability':[],'energy':[],'instrumentalness':[]
            ,'key':[],'liveness':[],'loudness':[],'mode':[],
            'speechiness':[],'tempo':[],'valence':[]}
 canno_find={'name':[]}
@@ -43,7 +43,7 @@ for _ in range(len(spotify_id)):
         full_dict['href'].append(detail['track_url'])
         full_dict['isrc'].append(detail['track_isrc'])
         
-        full_dict['daceability'].append(features['track_danceability'])
+        full_dict['danceability'].append(features['track_danceability'])
         full_dict['energy'].append(features['track_energy'])
         full_dict['instrumentalness'].append(features['track_instrumentalness'])
         full_dict['key'].append(features['track_key'])
@@ -58,4 +58,4 @@ for _ in range(len(spotify_id)):
         continue
 
 df=pd.DataFrame(full_dict)
-df.to_csv('./music_feature/nan_left_features.csv', index=False, encoding='utf-8-sig')
+df.to_csv('./music_feature/filter_music_features.csv', index=False, encoding='utf-8-sig')
