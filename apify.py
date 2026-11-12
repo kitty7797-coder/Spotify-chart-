@@ -3,10 +3,13 @@
 """
 from apify_client import ApifyClient
 import pandas as pd
+import os
 
 #匯入資料
-ori_data=pd.read_csv('./music_detail/filter_music_detail.csv', index_col=False)
-spotify_id=list(ori_data['id'])[::-1]
+ori_data=pd.read_csv('./GAM/2021金曲獎得獎.csv', index_col=False)
+# spotify_id=list(ori_data['id'])[::-1]
+key_name=list(ori_data['人名'])[::-1]
+key_track=list(ori_data['曲目'])[::-1]
 full_dict={'name':[], 'href':[],'isrc':[],
            'danceability':[],'energy':[],'instrumentalness':[]
            ,'key':[],'liveness':[],'loudness':[],'mode':[],
@@ -15,20 +18,23 @@ canno_find={'name':[]}
 # Initialize the ApifyClient with your API token
 client = ApifyClient("apify_api_vGItPi3HtLlvDtn54njuZbXgvv6Igv4BH4iB")
 
-for _ in range(len(spotify_id)):
+for _ in range(len(key_track)):
     try:
-        base_input='https://open.spotify.com/track/{}'
-        track_input=base_input.format(spotify_id.pop())
+        # base_input='https://open.spotify.com/track/{}'
+        #track_input=base_input.format(spotify_id.pop())
+        composer=key_name.pop()
+        track_name=key_track.pop()
+        
     # Prepare the Actor input
+        
         run_input = {
             "tracks": [
-                track_input,
+                track_name
             ],
             "tracksIncludeArtists": False,
             "tracksIncludeAlbum": False,
             "tracksIncludeAudioFeatures": True,
             "tracksIncludeAvailableMarkets": False,}
-        
         # Run the Actor and wait for it to finish
         run = client.actor("KJEf8oxcDPDjll2BU").call(run_input=run_input)
         
@@ -56,6 +62,9 @@ for _ in range(len(spotify_id)):
     except:
         canno_find['name'].append(detail['track_name'])
         continue
+file='./GAM/GAM_music_features'
+if not os.path.exists(file):
+    os.mkdir(file)
 
 df=pd.DataFrame(full_dict)
-df.to_csv('./music_feature/filter_music_features.csv', index=False, encoding='utf-8-sig')
+df.to_csv(file+'./2021_GAM_music_features.csv', index=False, encoding='utf-8-sig')
