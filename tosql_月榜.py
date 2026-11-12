@@ -16,7 +16,7 @@ year=2022
 while year!=2026:
     mon=['01','02','03','04','05','06','07','08','09','10','11','12']
     for index,m in enumerate(mon):
-        url=f'./mon_data/{year}/{year}{m}.csv'
+        url=f'./all_data/mon_data/{year}/{year}{m}.csv'
         try:
             data1=pd.read_csv(url, index_col=False)
         except:
