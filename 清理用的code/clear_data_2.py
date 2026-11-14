@@ -2,6 +2,7 @@
 #   將兩個檔案合併
 #   用outerjoin 集合
 #   將相同樂曲的播放量相加
+#   weeks_on_chart另外處理
 #====================
 import pandas as pd
 import os
@@ -23,33 +24,31 @@ while len(days)!=0:
     day2=str(days.pop())
     data1=pd.read_csv(url+f'/regional-tw-weekly-{day1}.csv')  
     data2=pd.read_csv(url+f'/regional-tw-weekly-{day2}.csv')
+    #將不用的欄位drop掉
     data1=data1.drop(columns=['rank','source',\
-                              'peak_rank','previous_rank'])
+                              'peak_rank','previous_rank','weeks_on_chart'])
     data2=data2.drop(columns=['rank','source',\
-                              'peak_rank','previous_rank'])
-    
+                              'peak_rank','previous_rank','weeks_on_chart'])    
+        
     #用外部交集合併兩表
     clear_pd=pd.merge(data1,data2, on='uri',how='outer')
     data1.info()
-    
-    
+        
     #將空的X值填入y的內容 
     clear_pd['artist_names_x']=clear_pd['artist_names_x'].fillna(clear_pd['artist_names_y'])
     clear_pd['track_name_x']=clear_pd['track_name_x'].fillna(clear_pd['track_name_y'])
     clear_pd['streams_x']=clear_pd['streams_x'].fillna(clear_pd['streams_y'])
-    clear_pd['weeks_on_chart_x']=clear_pd['weeks_on_chart_x'].fillna(clear_pd['weeks_on_chart_y'])
-    #將唯一的streams y設與weeks_on_chart_y為0方便待會兒相加
+    #將唯一的streams y設為0方便待會兒相加
     clear_pd['streams_y']=clear_pd['streams_y'].fillna(0)
-    clear_pd['weeks_on_chart_y']=clear_pd['weeks_on_chart_y'].fillna(0)
+    #相加
     clear_pd['total_stream']=clear_pd['streams_x']+clear_pd['streams_y']
-    clear_pd['total_on_chart']=clear_pd['weeks_on_chart_x']+clear_pd['weeks_on_chart_y']
     clear_pd=clear_pd.drop(columns=['track_name_y','artist_names_y',\
-                                    'streams_y','streams_x','weeks_on_chart_x','weeks_on_chart_y'])
+                                    'streams_y','streams_x'])
     clear_pd.index=clear_pd.index+1
     #確認資訊
     clear_pd.info()
     #重設欄位名稱
-    clear_pd.columns=['uri','artist_names','track_name','total_stream','total_on_chart']
+    clear_pd.columns=['uri','artist_names','track_name','total_stream']
     #儲存
     file_name=url+'/clear_data.2/'
     if not os.path.exists(file_name):

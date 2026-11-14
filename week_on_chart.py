@@ -1,5 +1,5 @@
 """
-重新抓week_on_chart
+抓week_on_chart最大值
 """
 from datetime import timedelta 
 import datetime

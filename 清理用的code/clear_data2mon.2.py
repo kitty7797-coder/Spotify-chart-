@@ -1,7 +1,7 @@
 #====================
 #   跟clear_data_2很像
 #   只需要改檔案名稱即可
-#   另外會有跨越分的週需要額外處理
+#   另外會有跨月分的週需要額外處理
 #====================
 import pandas as pd
 import os
@@ -31,20 +31,17 @@ while True:
         clear_pd['artist_names_x']=clear_pd['artist_names_x'].fillna(clear_pd['artist_names_y'])
         clear_pd['track_name_x']=clear_pd['track_name_x'].fillna(clear_pd['track_name_y'])
         clear_pd['total_stream_x']=clear_pd['total_stream_x'].fillna(clear_pd['total_stream_y'])
-        clear_pd['total_on_chart_x']=clear_pd['total_on_chart_x'].fillna(clear_pd['total_on_chart_y'])
         #將唯一的streams y設為0方便待會兒相加
         clear_pd['total_stream_y']=clear_pd['total_stream_y'].fillna(0)
-        clear_pd['total_on_chart_y']=clear_pd['total_on_chart_y'].fillna(0)
         clear_pd['total_stream']=clear_pd['total_stream_x']+clear_pd['total_stream_y']
-        clear_pd['total_on_cha']=clear_pd['total_on_chart_x']+clear_pd['total_on_chart_y']
         clear_pd=clear_pd.drop(columns=['Unnamed: 0_x','Unnamed: 0_y','track_name_y',\
                                         'artist_names_y','total_stream_y',\
-                                         'total_stream_x','total_on_chart_x','total_on_chart_y'])
+                                         'total_stream_x'])
         #把uri清理成只有id
         spotify_id=list(map(lambda x:x.split(':')[2], clear_pd['uri']))    
         clear_pd['uri']=spotify_id
             
-        clear_pd.columns=['id','artist_names','track_name','total_stream','total_on_chart']
+        clear_pd.columns=['id','artist_names','track_name','total_stream']
         clear_pd.index=clear_pd.index+1
         
         
