@@ -11,19 +11,20 @@ from datetime import timedelta
 
 #建立日期清單
 days=[]
-start_day=datetime.date(2021, 12, 30)
+start_day=datetime.date(2026, 1, 1)
 days.append(start_day)
+country=input('輸入國家:')
 while True:
     if len(days)>=52:
         break    
     new_day=days[-1]-timedelta(days=7)
     days.append(new_day)
 while len(days)!=0:
-    url='./twchart'
+    url=f'C:/Users/student/Desktop/Spotify-chart-/all_data/{country}chart'
     day1=str(days.pop())
     day2=str(days.pop())
-    data1=pd.read_csv(url+f'/regional-tw-weekly-{day1}.csv')  
-    data2=pd.read_csv(url+f'/regional-tw-weekly-{day2}.csv')
+    data1=pd.read_csv(url+f'/regional-{country}-weekly-{day1}.csv')  
+    data2=pd.read_csv(url+f'/regional-{country}-weekly-{day2}.csv')
     #將不用的欄位drop掉
     data1=data1.drop(columns=['rank','source',\
                               'peak_rank','previous_rank','weeks_on_chart'])

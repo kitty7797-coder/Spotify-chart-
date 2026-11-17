@@ -6,7 +6,7 @@ from sqlalchemy import create_engine
 
 #連接資料庫
 engine=create_engine(
-       'mysql+pymysql://root:kittysql77@localhost:3306/spotify'
+       'mysql+pymysql://root:Sql2026kitty@localhost:3306/spotify'
        )
 query="SELECT id, spotify_id FROM song"
 #抓取檔案
@@ -16,7 +16,7 @@ year=2022
 while year!=2026:
     mon=['01','02','03','04','05','06','07','08','09','10','11','12']
     for index,m in enumerate(mon):
-        url=f'./all_data/mon_data/{year}/{year}{m}.csv'
+        url=f'C:/Users/student/Desktop/Spotify-chart-/all_data/mon_data/{year}/{year}{m}.csv'
         try:
             data1=pd.read_csv(url, index_col=False)
         except:

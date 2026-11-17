@@ -5,12 +5,12 @@ import pandas as pd
 from sqlalchemy import create_engine
 
 engine=create_engine(
-       'mysql+pymysql://root:kittysql77@localhost:3306/spotify'
+       'mysql+pymysql://root:Sql2026kitty@localhost:3306/spotify'
        )
 query="SELECT id, spotify_id FROM song"
 song_id=pd.read_sql(query, con=engine)
 #檔案
-data=pd.read_csv('./new_chart.csv')
+data=pd.read_csv('C:/Users/student/Desktop/Spotify-chart-/all_data/new_chart.csv')
 
 new_data=pd.merge(song_id,data,how='inner',on='spotify_id').drop(columns=['spotify_id'])
 
