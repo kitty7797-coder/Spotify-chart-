@@ -10,7 +10,7 @@ country=input('輸入國家:')
 
 #連接資料庫
 engine=create_engine(
-       'mysql+pymysql://root:Sql2026kitty@localhost:3306/spotify'
+       'mysql+pymysql://root:kittysql77@localhost:3306/spotify'
        )
 query="SELECT id, spotify_id FROM song"
 #抓取檔案
@@ -20,7 +20,7 @@ year=2021
 while year!=2022:
     mon=['01','02','03','04','05','06','07','08','09','10','11','12']
     for index,m in enumerate(mon):
-        url=f'C:/Users/student/Desktop/Spotify-chart-/all_data/{country}/mon_data/{year}/{year}{m}.csv'
+        url=f'C:/PersonalProject/Spotify-chart-/all_data/{country}/mon_data/{year}/{year}{m}.csv'
         try:
             data1=pd.read_csv(url, index_col=False)
         except:
@@ -30,7 +30,7 @@ while year!=2022:
         #合併id
         new_data=pd.merge(data1, song_id, how='inner',on='spotify_id')
         new_data=new_data.drop(columns=['Unnamed: 0', 'artist_names', 'track_name'])
-        new_data=new_data[['id','spotify_id','total_stream','total_on_chart']]
+        new_data=new_data[['id','spotify_id','total_stream']]
         date_num=f'{year}-{index+1}-01'
         new_data['date']=date_num
         #寫入資料庫
