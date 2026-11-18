@@ -66,4 +66,4 @@ $RECYCLE.BIN/
 *.vsix
 
 #.json
-*.json
+爬資料/*.json
