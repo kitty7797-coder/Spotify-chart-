@@ -17,6 +17,7 @@ weeks=[]
 date=input('輸入起始日起，用/隔開: ').strip().split('/')
 weeks_num=int(input('抓取週數: ').strip())
 country=input('輸入國家:')
+year=input('輸入資料夾年分:')
 date=list(map(lambda i:int(i) , date))
 start_day=datetime.date(date[0],date[1],date[2])
 days.append(start_day)
@@ -29,7 +30,7 @@ day=str(days.pop())
 
 options=webdriver.ChromeOptions()
 #建立資料夾
-folder_name = f"./{country}chart"
+folder_name = f"C:/Users/student/Desktop/Spotify-chart-/all_data/{country}/{country}chart_{year}"
 if not os.path.exists(folder_name):
     os.mkdir(folder_name)
 #將下載路徑改成資料夾    
