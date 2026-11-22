@@ -22,9 +22,9 @@ with open('spotifyKey.json','r')as f:
 token=content['access_token']
 
 #讀取要要求的id檔案
-year=input()
+country=input('輸入國家')
 left_num=eval(input('輸入剩下的資料數:'))
-id_url=f'./uniq_track/{year}_uniq_track.csv'
+id_url=f'./all_data/{country}/uniq_track_{country}/all_uniq_track.csv'
 id_data=pd.read_csv(id_url, encoding='utf-8-sig')
 columns=['id','track_name']
 id_data.columns=columns
@@ -96,10 +96,10 @@ while len(spotify_id)!=0:
     print(f'還剩下{now_left+1}個檔案')
     order=input("隨意輸入數字，這是用來讓迴圈不會走太快，八個八結束迴圈:")    
 #isrc寫入uniq
-file="./music_detail"
+file="./all_data/{country}/music_detail"
 if not os.path.exists(file):
     os.mkdir(file)
-save_name="filter_music_detail.csv"    
+save_name="all_music_detail.csv"    
 if not os.path.exists(file+'/'+save_name):
     print('檔案不存在')
     new_data.to_csv(file+'/'+save_name, index=False)

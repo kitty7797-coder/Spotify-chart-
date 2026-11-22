@@ -6,10 +6,7 @@ from time import sleep
 wrong_data=[]
 #打開瀏覽器   
 driver=webdriver.Chrome()
-#建立資料夾
-# file_name='./music_feature'
-# if not os.path.exists(file_name):
-#     os.mkdir(file_name)
+
 
 def get_search_id(track_isrc):
     driver.switch_to.window(driver.window_handles[0])
@@ -36,8 +33,9 @@ def get_search_id(track_isrc):
     search_id=sub_content[2]
     return search_id
     
-year=input('輸入檔案名稱:')
-url=f"./music_detail/{year}_music_detail.csv"
+country=input('輸入國家名稱:')
+
+url=f".all_data/{country}/music_detail/all_music_detail.csv"
 data=pd.read_csv(url, encoding='utf-8-sig', index_col=False)
 
 

@@ -7,8 +7,9 @@ import json
 import os
 from time import sleep
 import pandas as pd
+country=input('請輸入國家:')
 # import csv
-url="./music_detail/filter_music_detail.csv"
+url=f"./all_data/{country}/music_detail/all_music_detail.csv"
 data=pd.read_csv(url, encoding='utf-8-sig', index_col=False)
 search_id=list(data['search_id'])
 #因為用pop所以先反過來
@@ -17,7 +18,7 @@ wrong_data=[]
 #打開瀏覽器   
 driver=webdriver.Chrome()
 #建立資料夾
-file_name='./music_feature'
+file_name=url+'/music_feature'
 if not os.path.exists(file_name):
     os.mkdir(file_name)
     
@@ -57,6 +58,6 @@ for _ in range(len(search_id)):
 #寫入csv檔案
 df.index+=1
 file_name=os.path.abspath(file_name)
-df.to_csv(file_name+'\\filter_music_feature.csv', encoding='utf-8-sig', index=False)  
+df.to_csv(file_name+'\\all_music_feature.csv', encoding='utf-8-sig', index=False)  
     
     

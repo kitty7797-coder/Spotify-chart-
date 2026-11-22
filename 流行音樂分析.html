@@ -1,0 +1,2842 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="artifact-type" content="narrative">
+  <meta name="design-style" content="figure">
+  <title>在熟悉與驚喜之間：流行音樂的結構力學與百年流變</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Noto+Sans+TC:wght@400;500;700;800&family=Noto+Serif+TC:wght@400;500;700&family=Roboto+Mono:wght@100..700&family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/tone@14.9.17/build/Tone.js"></script>
+  <script src="https://unpkg.com/lucide@1.43.0/dist/umd/lucide.min.js"></script>
+
+  <style>
+    :root {
+      color-scheme: light;
+
+      /* 1. Figure style tokens */
+      --background: #ffffff;
+      --surface-container-low: #f7f7f7;
+      --surface-container: #f2f2f2;
+      --surface-container-high: #ececec;
+
+      --on-surface: #121212;
+      --on-surface-variant: #5f5f5f;
+
+      --outline: #8a8a8a;
+      --outline-variant: #e3e3e3;
+
+      --primary: #121212;
+      --on-primary: #ffffff;
+      --primary-container: #e8e8e8;
+      --on-primary-container: #121212;
+      --secondary: #1f5fa8;
+      --tertiary: #b43c0b;
+      --error: #b42318;
+      --on-error: #ffffff;
+
+      --data-1: #e8590c;
+      --data-2: #2f6db5;
+      --data-3: #1b8a6b;
+      --data-4: #8e5bb5;
+      --data-context: #c4c4c4;
+
+      --font-headline: 'Noto Sans TC', 'Schibsted Grotesk', sans-serif;
+      --font-body: 'Noto Serif TC', 'Newsreader', serif;
+      --font-label: 'Roboto Mono', 'Noto Sans TC', monospace;
+
+      --rounded: 0.25rem;
+      --rounded-lg: 0;
+      --rounded-full: 0.25rem;
+
+      --ink-rule: 1px solid var(--on-surface);
+      --ink-rule-heavy: 2px solid var(--on-surface);
+      --hairline: 1px solid var(--outline-variant);
+      --outline-border: 1px solid var(--outline);
+      --grid-dash: 2 3;
+      --story-stroke: 3px;
+      --compare-stroke: 2px;
+      --context-stroke: 1.4px;
+      --bar-height: 6px;
+      --highlight-1: linear-gradient(transparent 58%, color-mix(in srgb, var(--data-1) 18%, var(--background)) 58%);
+      --highlight-2: linear-gradient(transparent 58%, color-mix(in srgb, var(--data-2) 16%, var(--background)) 58%);
+
+      /* 2. Shared semantic, focus, type scale, spacing & motion tokens */
+      --positive: #1b8a6b;
+      --warning: #b43c0b;
+      --focus: var(--secondary);
+
+      --display-size: clamp(2.15rem, 1.35rem + 2.8vw, 3.6rem);
+      --headline-size: clamp(1.65rem, 1.2rem + 1.5vw, 2.35rem);
+      --subhead-size: clamp(1.18rem, 1.05rem + 0.5vw, 1.42rem);
+      --body-size: clamp(1.0625rem, 1rem + 0.22vw, 1.15rem);
+      --label-size: clamp(0.75rem, 0.72rem + 0.12vw, 0.8125rem);
+
+      --space-xs: 0.25rem;
+      --space-sm: 0.5rem;
+      --space-md: 1rem;
+      --space-lg: 1.5rem;
+      --space-xl: 2.5rem;
+      --space-2xl: 4rem;
+      --space-3xl: 5.5rem;
+
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+      --dur-micro: 120ms;
+      --dur-short: 220ms;
+      --dur-long: 420ms;
+    }
+
+    /* Base reset */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { overflow-x: clip; margin: 0; padding: 0; }
+    header { position: static !important; }
+
+    body {
+      background-color: var(--background);
+      color: var(--on-surface);
+      font-family: var(--font-body);
+      font-size: var(--body-size);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button, input, select, textarea {
+      font-family: inherit;
+      font-size: inherit;
+      color: inherit;
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--focus);
+      outline-offset: 2px;
+    }
+
+    .page-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-xl);
+      padding: var(--space-xl) var(--space-lg) var(--space-3xl);
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+    .page-grid * { min-width: 0; }
+
+    /* Reading column & wider breakout containers */
+    .reading-col {
+      max-width: 66ch;
+      width: 100%;
+    }
+
+    /* Typography helpers */
+    .kicker {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 500;
+      color: var(--tertiary);
+      margin: 0 0 var(--space-sm) 0;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+
+    .kicker-en {
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .kicker-zh {
+      letter-spacing: 0;
+      text-transform: none;
+      color: var(--on-surface-variant);
+    }
+
+    h1 {
+      font-family: var(--font-headline);
+      font-size: var(--display-size);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin: 0 0 var(--space-md) 0;
+      color: var(--on-surface);
+    }
+
+    h2 {
+      font-family: var(--font-headline);
+      font-size: var(--headline-size);
+      font-weight: 700;
+      line-height: 1.22;
+      letter-spacing: -0.015em;
+      margin: 0 0 var(--space-md) 0;
+      color: var(--on-surface);
+    }
+
+    h3 {
+      font-family: var(--font-headline);
+      font-size: var(--subhead-size);
+      font-weight: 600;
+      line-height: 1.3;
+      margin: 0 0 var(--space-sm) 0;
+      color: var(--on-surface);
+    }
+
+    .deck {
+      font-family: var(--font-body);
+      font-size: clamp(1.125rem, 1.05rem + 0.35vw, 1.3rem);
+      color: var(--on-surface-variant);
+      line-height: 1.6;
+      margin: 0 0 var(--space-lg) 0;
+      max-width: 60ch;
+    }
+
+    p {
+      margin: 0 0 var(--space-md) 0;
+    }
+
+    /* Color-keyed narrative highlights matching plotted series */
+    .hl-1 {
+      background: var(--highlight-1);
+      color: var(--tertiary);
+      font-weight: 500;
+      padding: 0 0.15em;
+    }
+
+    .hl-2 {
+      background: var(--highlight-2);
+      color: var(--secondary);
+      font-weight: 500;
+      padding: 0 0.15em;
+    }
+
+    .mono-num {
+      font-family: var(--font-label);
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.02em;
+    }
+
+    /* Quick chapter nav bar */
+    .chapter-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm) var(--space-lg);
+      border-top: var(--ink-rule);
+      border-bottom: var(--hairline);
+      padding: var(--space-sm) 0;
+      margin-bottom: var(--space-lg);
+    }
+
+    .chapter-link {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+      text-decoration: none;
+      padding: var(--space-xs) 0;
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      border-bottom: 2px solid transparent;
+      transition: color var(--dur-micro) var(--ease-out), border-color var(--dur-micro) var(--ease-out);
+    }
+
+    .chapter-link:hover {
+      color: var(--on-surface);
+      border-bottom-color: var(--tertiary);
+    }
+
+    /* Ink-ruled stat blocks (Figure Treatment 4) */
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: var(--space-lg);
+      margin-top: var(--space-md);
+    }
+
+    .stat {
+      border-top: var(--ink-rule);
+      padding-top: var(--space-sm);
+      border-radius: var(--rounded-lg);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .stat-label {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+      margin-bottom: var(--space-xs);
+      display: block;
+    }
+
+    .stat-value {
+      font-family: var(--font-label);
+      font-size: clamp(1.35rem, 1.1rem + 0.9vw, 1.85rem);
+      font-weight: 500;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.02em;
+      color: var(--on-surface);
+      line-height: 1.2;
+      margin-bottom: var(--space-xs);
+    }
+
+    .stat-delta {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      color: var(--tertiary);
+      line-height: 1.45;
+    }
+
+    .stat-bar {
+      height: var(--bar-height);
+      background: var(--surface-container-high);
+      margin-top: var(--space-sm);
+      width: 100%;
+    }
+
+    .stat-bar > span {
+      display: block;
+      height: 100%;
+      background: var(--data-1);
+      transition: width var(--dur-long) var(--ease-out);
+    }
+
+    .stat-bar--blue > span {
+      background: var(--data-2);
+    }
+
+    /* Section framing */
+    .story-section {
+      padding-top: var(--space-xl);
+      border-top: var(--hairline);
+      display: grid;
+      gap: var(--space-lg);
+    }
+
+    .section-header {
+      max-width: 66ch;
+    }
+
+    /* Newsroom chart & lab containers */
+    .figure-block {
+      width: 100%;
+      padding: var(--space-lg) 0;
+    }
+
+    .figure-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: var(--space-md);
+      margin-bottom: var(--space-md);
+    }
+
+    .chart-title {
+      font-family: var(--font-headline);
+      font-size: var(--subhead-size);
+      font-weight: 600;
+      color: var(--on-surface);
+      margin: 0 0 var(--space-xs) 0;
+    }
+
+    .chart-sub, .source {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+      margin: 0;
+    }
+
+    .source {
+      margin-top: var(--space-sm);
+      padding-top: var(--space-xs);
+      border-top: var(--hairline);
+    }
+
+    /* Controls & Buttons (Figure style: sharp 0.25rem corners, ink & outline) */
+    .control-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      align-items: center;
+      margin-bottom: var(--space-md);
+    }
+
+    .btn {
+      font-family: var(--font-headline);
+      font-weight: 600;
+      font-size: 0.875rem;
+      min-height: 44px;
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--rounded);
+      border: 1px solid var(--outline);
+      background: var(--background);
+      color: var(--on-surface);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-xs);
+      transition: background-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out), border-color var(--dur-micro) var(--ease-out);
+    }
+
+    .btn:hover {
+      background: var(--surface-container-low);
+      border-color: var(--on-surface);
+    }
+
+    .btn:active {
+      background: var(--primary-container);
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: var(--on-primary);
+      border-color: var(--primary);
+    }
+
+    .btn-primary:hover {
+      background: var(--on-surface-variant);
+      border-color: var(--on-surface-variant);
+    }
+
+    .btn-accent {
+      background: var(--tertiary);
+      color: var(--on-primary);
+      border-color: var(--tertiary);
+    }
+
+    .btn-accent:hover {
+      background: var(--on-surface);
+      border-color: var(--on-surface);
+    }
+
+    .btn.is-active {
+      background: var(--primary);
+      color: var(--on-primary);
+      border-color: var(--primary);
+    }
+
+    .chip {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      background: var(--surface-container);
+      color: var(--on-surface-variant);
+      border-radius: var(--rounded-full);
+      padding: 0.2rem 0.55rem;
+      display: inline-block;
+    }
+
+    .chip-story {
+      background: color-mix(in srgb, var(--data-1) 14%, var(--background));
+      color: var(--tertiary);
+      font-weight: 500;
+    }
+
+    .chip-compare {
+      background: color-mix(in srgb, var(--data-2) 14%, var(--background));
+      color: var(--secondary);
+      font-weight: 500;
+    }
+
+    /* Interactive Song Form Explorer Layout */
+    .form-explorer-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr);
+      gap: var(--space-lg);
+      align-items: start;
+    }
+
+    .chart-stage {
+      background: var(--background);
+      min-height: 290px;
+      position: relative;
+    }
+
+    .chart-svg {
+      width: 100%;
+      height: auto;
+      display: block;
+      overflow: visible;
+    }
+
+    .gridline { stroke: var(--outline-variant); stroke-width: 1; stroke-dasharray: var(--grid-dash); }
+    .baseline { stroke: var(--on-surface); stroke-width: 1.5; }
+    .series-context { stroke: var(--data-context); stroke-width: var(--context-stroke); fill: none; }
+    .series-compare { stroke: var(--data-2); stroke-width: var(--compare-stroke); fill: none; stroke-dasharray: 5 4; }
+    .series-story { stroke: var(--data-1); stroke-width: var(--story-stroke); fill: none; stroke-linejoin: round; stroke-linecap: round; }
+    .series-story-end { fill: var(--data-1); }
+    .label-story { fill: var(--tertiary); font-family: var(--font-label); font-size: 12px; font-weight: 500; }
+    .label-compare { fill: var(--secondary); font-family: var(--font-label); font-size: 12px; font-weight: 500; }
+    .axis-tick { fill: var(--on-surface-variant); font-family: var(--font-label); font-size: 11px; }
+
+    /* Interactive Section Timeline Strip */
+    .section-strip {
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 2px;
+      margin-top: var(--space-md);
+      width: 100%;
+    }
+
+    .section-block-btn {
+      min-height: 52px;
+      padding: var(--space-xs) var(--space-sm);
+      border: 1px solid var(--outline-variant);
+      background: var(--surface-container-low);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      text-align: left;
+      transition: background-color var(--dur-micro) var(--ease-out), border-color var(--dur-micro) var(--ease-out);
+      overflow: hidden;
+    }
+
+    .section-block-btn:hover {
+      background: var(--surface-container-high);
+      border-color: var(--outline);
+    }
+
+    .section-block-btn.is-selected {
+      background: var(--primary);
+      color: var(--on-primary);
+      border-color: var(--primary);
+    }
+
+    .section-block-btn.is-playing {
+      box-shadow: inset 0 -4px 0 var(--data-1);
+    }
+
+    .section-block-btn .sec-code {
+      font-family: var(--font-label);
+      font-size: 0.75rem;
+      font-weight: 700;
+      line-height: 1.2;
+      white-space: nowrap;
+    }
+
+    .section-block-btn .sec-name {
+      font-family: var(--font-headline);
+      font-size: 0.78rem;
+      font-weight: 500;
+      opacity: 0.88;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
+    }
+
+    /* Aside Inspector Panel (Figure uses --surface-container-low for genuine tool/aside panels) */
+    .aside-panel {
+      background: var(--surface-container-low);
+      border-top: var(--ink-rule-heavy);
+      padding: var(--space-lg);
+      display: grid;
+      gap: var(--space-md);
+    }
+
+    .meta-kv-list {
+      display: grid;
+      gap: var(--space-sm);
+      margin: 0;
+    }
+
+    .meta-kv {
+      border-top: var(--hairline);
+      padding-top: var(--space-xs);
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: var(--space-md);
+    }
+
+    .meta-kv dt {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+      flex-shrink: 0;
+    }
+
+    .meta-kv dd {
+      margin: 0;
+      font-family: var(--font-label);
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--on-surface);
+      text-align: right;
+    }
+
+    /* Audio Control Bar */
+    .audio-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-md);
+      padding: var(--space-sm) var(--space-md);
+      background: var(--surface-container-low);
+      border: var(--hairline);
+      margin-top: var(--space-md);
+    }
+
+    .audio-status {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+    }
+
+    /* Section 2: Studio Lab (Harmony + Rhythm side by side) */
+    .lab-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-xl);
+      align-items: start;
+    }
+
+    .lab-panel {
+      background: var(--surface-container-low);
+      border-top: var(--ink-rule-heavy);
+      padding: var(--space-lg);
+      display: grid;
+      gap: var(--space-md);
+    }
+
+    .progression-list {
+      display: grid;
+      gap: var(--space-xs);
+    }
+
+    .prog-item {
+      width: 100%;
+      text-align: left;
+      min-height: 48px;
+      padding: var(--space-sm) var(--space-md);
+      background: var(--background);
+      border: 1px solid var(--outline-variant);
+      border-radius: var(--rounded);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-md);
+      transition: border-color var(--dur-micro) var(--ease-out), background-color var(--dur-micro) var(--ease-out);
+    }
+
+    .prog-item:hover {
+      border-color: var(--outline);
+    }
+
+    .prog-item.is-active {
+      border-color: var(--on-surface);
+      background: var(--primary-container);
+    }
+
+    .prog-roman {
+      font-family: var(--font-label);
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--on-surface);
+    }
+
+    .prog-title {
+      font-family: var(--font-headline);
+      font-size: 0.85rem;
+      color: var(--on-surface-variant);
+    }
+
+    .chord-slots {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: var(--space-sm);
+    }
+
+    .chord-slot {
+      background: var(--background);
+      border: var(--hairline);
+      border-top: 2px solid var(--outline-variant);
+      padding: var(--space-sm);
+      text-align: center;
+      transition: border-color var(--dur-micro) var(--ease-out), background-color var(--dur-micro) var(--ease-out);
+    }
+
+    .chord-slot.is-step-active {
+      border-top-color: var(--data-1);
+      background: color-mix(in srgb, var(--data-1) 12%, var(--background));
+    }
+
+    .chord-slot .deg {
+      font-family: var(--font-label);
+      font-size: 0.78rem;
+      color: var(--on-surface-variant);
+      display: block;
+    }
+
+    .chord-slot .name {
+      font-family: var(--font-label);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--on-surface);
+      display: block;
+      margin-top: 2px;
+    }
+
+    /* Slider + Number input sync row */
+    .tempo-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: end;
+      gap: var(--space-md);
+      padding-top: var(--space-xs);
+    }
+
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+
+    .field-group--grow {
+      flex: 1 1 160px;
+    }
+
+    .field-label {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+    }
+
+    .input-num {
+      width: 5.5rem;
+      min-height: 44px;
+      padding: var(--space-xs) var(--space-sm);
+      border: 1px solid var(--outline);
+      border-radius: var(--rounded);
+      background: var(--background);
+      font-family: var(--font-label);
+      font-variant-numeric: tabular-nums;
+      text-align: right;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      min-height: 44px;
+      accent-color: var(--tertiary);
+      cursor: pointer;
+    }
+
+    /* 16-step Beat Matrix */
+    .beat-matrix {
+      display: grid;
+      gap: var(--space-sm);
+      overflow-x: auto;
+      padding-bottom: var(--space-xs);
+    }
+
+    .beat-track {
+      display: grid;
+      grid-template-columns: 5.5rem repeat(16, minmax(18px, 1fr));
+      gap: 3px;
+      align-items: center;
+    }
+
+    .beat-track-label {
+      font-family: var(--font-label);
+      font-size: 0.75rem;
+      color: var(--on-surface-variant);
+      white-space: nowrap;
+    }
+
+    .beat-cell {
+      height: 32px;
+      min-width: 18px;
+      border: 1px solid var(--outline-variant);
+      background: var(--background);
+      border-radius: 2px;
+      cursor: pointer;
+      padding: 0;
+      transition: background-color var(--dur-micro) var(--ease-out), border-color var(--dur-micro) var(--ease-out);
+    }
+
+    .beat-cell.is-beat-start {
+      border-left: 2px solid var(--outline);
+    }
+
+    .beat-cell.is-on {
+      background: var(--primary);
+      border-color: var(--primary);
+    }
+
+    .beat-cell.is-on.track-snare {
+      background: var(--data-1);
+      border-color: var(--data-1);
+    }
+
+    .beat-cell.is-on.track-hat {
+      background: var(--data-2);
+      border-color: var(--data-2);
+    }
+
+    .beat-cell.is-playhead {
+      outline: 2px solid var(--tertiary);
+      outline-offset: 1px;
+    }
+
+    /* Arrangement Layer Matrix & Hairline Table */
+    .data-table-wrap {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    table.figure-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.95rem;
+    }
+
+    table.figure-table thead th {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 500;
+      color: var(--on-surface-variant);
+      border-top: var(--ink-rule);
+      border-bottom: var(--ink-rule);
+      padding: var(--space-sm) var(--space-md) var(--space-sm) 0;
+      white-space: nowrap;
+    }
+
+    table.figure-table tbody td {
+      padding: var(--space-md) var(--space-md) var(--space-md) 0;
+      border-bottom: var(--hairline);
+      vertical-align: top;
+      line-height: 1.55;
+    }
+
+    table.figure-table tbody tr:hover {
+      background: var(--surface-container-low);
+    }
+
+    .td-mono {
+      font-family: var(--font-label);
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
+    /* Arrangement Layer Interactive Inspector */
+    .layer-matrix {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+      gap: var(--space-xl);
+      align-items: start;
+      margin-top: var(--space-md);
+    }
+
+    .layer-bars {
+      display: grid;
+      gap: var(--space-sm);
+    }
+
+    .layer-row {
+      display: grid;
+      grid-template-columns: 7.5rem minmax(0, 1fr) 3.5rem;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+
+    .layer-name {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      color: var(--on-surface);
+    }
+
+    .layer-track {
+      height: 10px;
+      background: var(--surface-container-high);
+      position: relative;
+    }
+
+    .layer-fill {
+      height: 100%;
+      background: var(--data-1);
+      transition: width var(--dur-short) var(--ease-out);
+    }
+
+    .layer-fill--blue {
+      background: var(--data-2);
+    }
+
+    .layer-pct {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Section 3: Historical Era Explorer & Chart */
+    .era-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
+      gap: var(--space-xl);
+      align-items: start;
+    }
+
+    .era-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-xs);
+      margin-bottom: var(--space-md);
+    }
+
+    .era-node-btn {
+      cursor: pointer;
+    }
+
+    /* Section 4: Scholarly Literature Grid */
+    .scholar-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-lg);
+      margin-top: var(--space-md);
+    }
+
+    .scholar-item {
+      border-top: var(--ink-rule);
+      padding-top: var(--space-md);
+    }
+
+    .scholar-year {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      color: var(--tertiary);
+      display: block;
+      margin-bottom: var(--space-xs);
+    }
+
+    /* Methodology & Sources collapsible */
+    details.method-note {
+      border-top: var(--hairline);
+      border-bottom: var(--hairline);
+      padding: var(--space-md) 0;
+      margin-top: var(--space-xl);
+    }
+
+    details.method-note summary {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      color: var(--on-surface);
+      cursor: pointer;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 900px) {
+      .stat-row {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .form-explorer-grid,
+      .lab-grid,
+      .layer-matrix,
+      .era-layout,
+      .scholar-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page-grid {
+        padding: var(--space-md) var(--space-md) var(--space-2xl);
+        gap: var(--space-lg);
+      }
+      .stat-row {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .chord-slots {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .section-strip {
+        flex-wrap: wrap;
+      }
+      .section-block-btn {
+        flex: 1 1 30% !important;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page-grid">
+
+    <!-- MASTHEAD / OPENING HOOK -->
+    <header>
+      <p class="kicker">
+        <span class="kicker-en">POP MUSIC ANALYSIS · STRUCTURAL &amp; HISTORICAL ESSAY</span>
+        <span class="kicker-zh">流行音樂分析專題</span>
+      </p>
+      <h1>在熟悉與驚喜之間：流行音樂的結構力學與百年流變</h1>
+      <p class="deck">
+        流行音樂之所以能在三分鐘內打動數百萬人，並非憑空靈感，而是一套經過百年演化的聲音工程：精準控制的記憶鉤子、可預期卻又不失推進感的和聲張力，以及隨媒介技術劇烈重組的曲式比例。
+      </p>
+
+      <nav class="chapter-nav" aria-label="章節導覽">
+        <a class="chapter-link" href="#sec-structure">01 曲式建築學</a>
+        <a class="chapter-link" href="#sec-elements">02 五大核心要素</a>
+        <a class="chapter-link" href="#sec-history">03 百年時代演變</a>
+        <a class="chapter-link" href="#sec-theory">04 音樂學研究視野</a>
+      </nav>
+
+      <div class="stat-row" aria-label="核心觀察指標">
+        <div class="stat">
+          <div>
+            <span class="stat-label">拍號與生理律動基準</span>
+            <div class="stat-value">4/4 · 90–130 BPM</div>
+            <p class="stat-delta">反拍重音（Backbeat）構成多數流行曲律動骨幹</p>
+          </div>
+          <div class="stat-bar" aria-hidden="true"><span style="width: 78%;"></span></div>
+        </div>
+
+        <div class="stat">
+          <div>
+            <span class="stat-label">現代主副歌核心模組</span>
+            <div class="stat-value">6 大功能段落</div>
+            <p class="stat-delta">前奏、主歌、導歌、副歌、橋段與尾奏的能量循環</p>
+          </div>
+          <div class="stat-bar stat-bar--blue" aria-hidden="true"><span style="width: 65%;"></span></div>
+        </div>
+
+        <div class="stat">
+          <div>
+            <span class="stat-label">串流時代前奏長度壓縮</span>
+            <div class="stat-value">~20s → &lt;5s</div>
+            <p class="stat-delta">為降低前 30 秒跳歌率，現代單曲大幅提前記憶點</p>
+          </div>
+          <div class="stat-bar" aria-hidden="true"><span style="width: 85%;"></span></div>
+        </div>
+
+        <div class="stat">
+          <div>
+            <span class="stat-label">實證演進觀察跨度</span>
+            <div class="stat-value">1920s–2020s</div>
+            <p class="stat-delta">從叮砰巷樂譜、廣播黑膠一路演化至演算法短影音</p>
+          </div>
+          <div class="stat-bar stat-bar--blue" aria-hidden="true"><span style="width: 92%;"></span></div>
+        </div>
+      </div>
+    </header>
+
+    <!-- SECTION 1: SONG STRUCTURE -->
+    <section id="sec-structure" class="story-section">
+      <div class="section-header">
+        <p class="kicker">
+          <span class="kicker-en">01 · FORM &amp; TENSION ARCHITECTURE</span>
+          <span class="kicker-zh">曲式建築學</span>
+        </p>
+        <h2>曲式不是死板公式，而是精心設計的情緒張力曲線</h2>
+        <p>
+          分析一首流行歌曲，最直觀的切入點是<strong>曲式結構（Song Form）</strong>。聽眾之所以覺得一首歌「順耳卻不單調」，關鍵在於作曲者如何編排<span class="hl-1">能量與配器張力曲線</span>，讓熟悉感（重複的副歌）與新鮮感（敘事的主歌、轉折的橋段）交替出現。與<span class="hl-2">傳統敘事主副歌曲線</span>相比，當代串流歌曲更傾向在開場前十秒就先丟出副歌或核心旋律鉤子（Hook），大幅改變了前奏的權重。
+        </p>
+      </div>
+
+      <div class="figure-block">
+        <div class="figure-header">
+          <div>
+            <h3 class="chart-title">三大歷史曲式範式的能量張力對照</h3>
+            <p class="chart-sub">縱軸：綜合編曲密度與情緒張力（0–100 相對指標）；橫軸：歌曲時間進程（點選段落可檢視功能與試聽）</p>
+          </div>
+          <div class="control-bar" style="margin-bottom: 0;" role="group" aria-label="切換曲式範式">
+            <button type="button" class="btn is-active" id="btn-form-classic" onclick="selectFormParadigm('classic')">經典主副歌敘事型</button>
+            <button type="button" class="btn" id="btn-form-aaba" onclick="selectFormParadigm('aaba')">AABA 32 小節傳統型</button>
+            <button type="button" class="btn" id="btn-form-streaming" onclick="selectFormParadigm('streaming')">串流副歌前置型</button>
+          </div>
+        </div>
+
+        <div class="form-explorer-grid">
+          <div>
+            <div class="chart-stage" id="form-chart-container">
+              <svg id="form-svg" class="chart-svg" viewBox="0 0 680 270" aria-label="曲式能量張力曲線圖"></svg>
+            </div>
+
+            <div class="section-strip" id="form-timeline-strip" role="group" aria-label="曲式段落時間軸"></div>
+
+            <div class="audio-bar">
+              <div style="display: flex; flex-wrap: wrap; gap: var(--space-sm); align-items: center;">
+                <button type="button" class="btn btn-accent" id="btn-play-form" onclick="toggleFormAudio()">
+                  <i data-lucide="play" style="width:16px;height:16px;" aria-hidden="true"></i>
+                  <span>試聽此曲式張力示範</span>
+                </button>
+                <button type="button" class="btn" id="btn-stop-form" onclick="stopAllAudio()">
+                  <i data-lucide="square" style="width:14px;height:14px;" aria-hidden="true"></i>
+                  <span>停止</span>
+                </button>
+              </div>
+              <span class="audio-status" id="form-audio-status">即時合成示範（點選播放可聆聽各段落音色密度與張力推進）</span>
+            </div>
+          </div>
+
+          <aside class="aside-panel" aria-live="polite">
+            <div>
+              <span class="chip chip-story" id="sec-detail-tag">CHORUS · 高張力核心</span>
+              <h3 id="sec-detail-title" style="margin-top: var(--space-sm);">副歌 (Chorus)</h3>
+              <p id="sec-detail-desc" style="font-size: 0.96rem; margin-bottom: 0;">
+                全曲記憶點與情緒的最高峰，通常包含歌名或核心金句。旋律音域提升、和聲趨於穩定且具包覆感，配器全面展開以強化記憶。
+              </p>
+            </div>
+
+            <dl class="meta-kv-list">
+              <div class="meta-kv">
+                <dt>所屬範式結構</dt>
+                <dd id="sec-detail-formula">I – V – PC – C – V – PC – C – B – C – O</dd>
+              </div>
+              <div class="meta-kv">
+                <dt>能量張力指標</dt>
+                <dd id="sec-detail-energy">95 / 100</dd>
+              </div>
+              <div class="meta-kv">
+                <dt>主要歌詞任務</dt>
+                <dd id="sec-detail-lyric">提煉普世共鳴與記憶鉤子</dd>
+              </div>
+              <div class="meta-kv">
+                <dt>和聲與編曲特徵</dt>
+                <dd id="sec-detail-harmony">主和弦領銜、全頻段齊奏與和聲疊加</dd>
+              </div>
+            </dl>
+          </aside>
+        </div>
+
+        <p class="source">說明：曲線數值為依音樂分析理論（曲式段落功能與配器層次）建構之張力示範模型；藍色虛線標示經典主副歌曲線作為基準對照。</p>
+      </div>
+    </section>
+
+    <!-- SECTION 2: FIVE KEY ELEMENTS -->
+    <section id="sec-elements" class="story-section">
+      <div class="section-header">
+        <p class="kicker">
+          <span class="kicker-en">02 · FIVE CORE ELEMENTS</span>
+          <span class="kicker-zh">五大核心構成要素</span>
+        </p>
+        <h2>節奏、和聲、旋律、編曲與歌詞的精密分工</h2>
+        <p>
+          若把流行歌比喻為建築，<strong>節奏（Rhythm）</strong>是地基與骨骼，<strong>和聲（Harmony）</strong>決定情緒色溫與光影，<strong>旋律（Melody）</strong>是視線焦點，<strong>音色與編曲（Timbre &amp; Arrangement）</strong>決定空間質地，而<strong>歌詞（Lyrics）</strong>則是賦予意義的故事線。下方工作室可即時聆聽不同和聲進行與節奏律動如何直接改變歌曲體感。
+        </p>
+      </div>
+
+      <!-- Interactive Rhythm & Harmony Lab -->
+      <div class="lab-grid">
+        <!-- Harmony Panel -->
+        <div class="lab-panel">
+          <div>
+            <span class="chip chip-story">ELEMENT 01 · HARMONY</span>
+            <h3 style="margin-top: var(--space-sm);">四大經典和聲進行互動播放器</h3>
+            <p class="chart-sub">點選任一和聲序列並按下播放，聆聽級數循環與速度變化帶來的情緒轉變</p>
+          </div>
+
+          <div class="progression-list" role="group" aria-label="選擇和聲進行">
+            <button type="button" class="prog-item is-active" id="prog-btn-axis" onclick="selectProgression('axis')">
+              <div>
+                <div class="prog-roman">I – V – vi – IV</div>
+                <div class="prog-title">萬用四和弦進行（正向推進、宏大感）</div>
+              </div>
+              <span class="chip">C – G – Am – F</span>
+            </button>
+
+            <button type="button" class="prog-item" id="prog-btn-sensitive" onclick="selectProgression('sensitive')">
+              <div>
+                <div class="prog-roman">vi – IV – I – V</div>
+                <div class="prog-title">感傷推進進行（小調起頭、渴望張力）</div>
+              </div>
+              <span class="chip">Am – F – C – G</span>
+            </button>
+
+            <button type="button" class="prog-item" id="prog-btn-canon" onclick="selectProgression('canon')">
+              <div>
+                <div class="prog-roman">I – V – vi – iii – IV – I – IV – V</div>
+                <div class="prog-title">卡農下行序列（如 Maroon 5〈Memories〉結構）</div>
+              </div>
+              <span class="chip">C – G – Am – Em…</span>
+            </button>
+
+            <button type="button" class="prog-item" id="prog-btn-jazz" onclick="selectProgression('jazz')">
+              <div>
+                <div class="prog-roman">ii⁷ – V⁷ – Imaj⁷ – vi⁷</div>
+                <div class="prog-title">都會抒情七和弦（R&amp;B / City Pop 柔和色彩）</div>
+              </div>
+              <span class="chip">Dm⁷ – G⁷ – Cmaj⁷ – Am⁷</span>
+            </button>
+          </div>
+
+          <div class="chord-slots" id="chord-slots-display" aria-label="當前進行和弦格子"></div>
+
+          <div class="tempo-row">
+            <div class="field-group field-group--grow">
+              <label class="field-label" for="slider-bpm">歌曲速度調整 (BPM)</label>
+              <input type="range" id="slider-bpm" min="70" max="140" value="108" oninput="syncBpmFromSlider(this.value)">
+            </div>
+            <div class="field-group">
+              <label class="field-label" for="input-bpm">BPM 數值</label>
+              <input type="number" class="input-num" id="input-bpm" min="70" max="140" value="108" oninput="syncBpmFromNumber(this.value)">
+            </div>
+            <button type="button" class="btn btn-primary" id="btn-play-harmony" onclick="toggleHarmonyAudio()">
+              <i data-lucide="play" style="width:16px;height:16px;" aria-hidden="true"></i>
+              <span>播放和聲</span>
+            </button>
+          </div>
+          <p class="audio-status" id="harmony-audio-status">目前：I – V – vi – IV（108 BPM）· 經典流行抒情與舞曲核心骨幹</p>
+        </div>
+
+        <!-- Rhythm Panel -->
+        <div class="lab-panel">
+          <div>
+            <span class="chip chip-compare">ELEMENT 02 · RHYTHM &amp; GROOVE</span>
+            <h3 style="margin-top: var(--space-sm);">16 步進鼓組律動實驗室</h3>
+            <p class="chart-sub">切換不同時代的節奏型態，或直接點擊下方 16 分音符格位改寫鼓點</p>
+          </div>
+
+          <div class="control-bar" style="margin-bottom: 0;" role="group" aria-label="預設節奏型態">
+            <button type="button" class="btn is-active" id="groove-btn-backbeat" onclick="selectGroove('backbeat')">反拍搖滾</button>
+            <button type="button" class="btn" id="groove-btn-four" onclick="selectGroove('four')">四四拍舞曲</button>
+            <button type="button" class="btn" id="groove-btn-rnb" onclick="selectGroove('rnb')">R&amp;B 切分</button>
+            <button type="button" class="btn" id="groove-btn-trap" onclick="selectGroove('trap')">Trap 碎拍</button>
+          </div>
+
+          <div class="beat-matrix" id="beat-matrix-grid" role="group" aria-label="16 步進鼓組編曲矩陣"></div>
+
+          <div class="tempo-row" style="justify-content: space-between;">
+            <p class="audio-status" id="groove-desc" style="margin: 0; max-width: 38ch;">
+              第 2、4 拍的軍鼓反拍（Backbeat）是搖滾與流行樂讓人自然點頭的身體密碼。
+            </p>
+            <button type="button" class="btn btn-primary" id="btn-play-groove" onclick="toggleGrooveAudio()">
+              <i data-lucide="play" style="width:16px;height:16px;" aria-hidden="true"></i>
+              <span>播放節奏</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Element 3, 4, 5: Arrangement Layer Inspector + Table -->
+      <div class="figure-block">
+        <div class="figure-header">
+          <div>
+            <h3 class="chart-title">旋律、編曲頻段與歌詞功能在各段落的協同矩陣</h3>
+            <p class="chart-sub">點選下方段落按鈕，即時觀察配器層次（Arrangement Layers）如何從留白走向飽滿</p>
+          </div>
+          <div class="control-bar" style="margin-bottom: 0;" role="group" aria-label="檢視段落編曲層次">
+            <button type="button" class="btn is-active" id="layer-btn-verse" onclick="selectArrangementLayer('verse')">主歌 Verse</button>
+            <button type="button" class="btn" id="layer-btn-pre" onclick="selectArrangementLayer('pre')">導歌 Pre-Chorus</button>
+            <button type="button" class="btn" id="layer-btn-chorus" onclick="selectArrangementLayer('chorus')">副歌 Chorus</button>
+            <button type="button" class="btn" id="layer-btn-bridge" onclick="selectArrangementLayer('bridge')">橋段 Bridge</button>
+          </div>
+        </div>
+
+        <div class="layer-matrix">
+          <div class="aside-panel">
+            <h4 class="chart-title" id="layer-panel-title" style="margin: 0;">主歌 (Verse)：留白與敘事空間</h4>
+            <p id="layer-panel-note" style="font-size: 0.95rem; margin: 0;">
+              低頻與高頻配器保持克制，將中頻空間讓給主唱人聲敘說故事細節，為後續進入副歌保留動態餘裕（Headroom）。
+            </p>
+            <div class="layer-bars" id="layer-bars-container"></div>
+          </div>
+
+          <div class="data-table-wrap">
+            <table class="figure-table">
+              <thead>
+                <tr>
+                  <th>核心要素</th>
+                  <th>主歌 (Verse)</th>
+                  <th>導歌 (Pre-Chorus)</th>
+                  <th>副歌 (Chorus)</th>
+                  <th>橋段 (Bridge)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="td-mono">旋律設計<br><span style="font-size:0.75rem;color:var(--on-surface-variant);">Melody</span></td>
+                  <td>級進為主、音域較低，貼近說話語氣與節奏感</td>
+                  <td>音高逐步爬升，製造懸而未決的推進勢能</td>
+                  <td>躍進音程與長音拉開張力，形成高辨識度鉤子</td>
+                  <td>打破前面旋律慣性，提供嶄新樂句或最高音點</td>
+                </tr>
+                <tr>
+                  <td class="td-mono">音色編曲<br><span style="font-size:0.75rem;color:var(--on-surface-variant);">Timbre</span></td>
+                  <td>局部節奏組與單一樂器伴奏，留白較多</td>
+                  <td>加入過門鼓點、上升合成器或層次預告</td>
+                  <td>全頻段齊奏、雙軌人聲與立體聲寬度全開</td>
+                  <td>刻意抽離鼓組或轉換音色質地製造對比</td>
+                </tr>
+                <tr>
+                  <td class="td-mono">歌詞功能<br><span style="font-size:0.75rem;color:var(--on-surface-variant);">Lyrics</span></td>
+                  <td>交代人事時地物，每段主歌歌詞不重複</td>
+                  <td>情緒轉折與內心獨白，引出核心疑問</td>
+                  <td>點出歌名與中心思想，每次出現幾乎完全重複</td>
+                  <td>視角抽離、反轉或昇華，替末段副歌重啟意義</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: HISTORICAL DEVELOPMENT -->
+    <section id="sec-history" class="story-section">
+      <div class="section-header">
+        <p class="kicker">
+          <span class="kicker-en">03 · HISTORICAL EVOLUTION (1920s–2020s)</span>
+          <span class="kicker-zh">百年時代演變與媒介革命</span>
+        </p>
+        <h2>每一次播音媒介的更迭，都在重寫流行歌的結構比例</h2>
+        <p>
+          流行音樂的演進並非純粹的審美擺盪，而是與聆聽媒介高度綁定：七吋黑膠單曲的物理凹槽限制了三分鐘歌長；電視與 MTV 時代催生了極具戲劇張力的競技場副歌；而進入串流計費時代（多數平台以播放滿 30 秒計入有效收聽），音樂人被迫縮短<span class="hl-1">平均前奏長度</span>，同時將<span class="hl-2">首次副歌出現時間</span>大幅往前推進。
+        </p>
+      </div>
+
+      <div class="figure-block">
+        <div class="figure-header">
+          <div>
+            <h3 class="chart-title">媒介轉型下的歌曲結構演化趨勢（1950s–2020s）</h3>
+            <p class="chart-sub">縱軸：代表性單曲進場秒數指標（秒）；點擊圖上時代節點或下方時代頁籤，可閱讀各世代結構解析</p>
+          </div>
+        </div>
+
+        <div class="era-layout">
+          <div>
+            <div class="chart-stage" id="history-chart-container">
+              <svg id="history-svg" class="chart-svg" viewBox="0 0 640 300" aria-label="1950年代至2020年代前奏長度與副歌出現時間演變圖"></svg>
+            </div>
+            <p class="source">說明：曲線反映流行音樂史與串流曲庫實證研究（如唱片工業三分鐘單曲規範、MTV 時期與後 2010 年代串流跳歌效應）所觀察之結構性壓縮趨勢。</p>
+          </div>
+
+          <aside class="aside-panel" aria-live="polite">
+            <div class="era-tabs" role="group" aria-label="選擇歷史時期">
+              <button type="button" class="btn is-active" id="era-btn-tinpan" onclick="selectEra('tinpan')">1920s–50s</button>
+              <button type="button" class="btn" id="era-btn-rock" onclick="selectEra('rock')">1950s–60s</button>
+              <button type="button" class="btn" id="era-btn-mtv" onclick="selectEra('mtv')">1970s–80s</button>
+              <button type="button" class="btn" id="era-btn-digital" onclick="selectEra('digital')">1990s–00s</button>
+              <button type="button" class="btn" id="era-btn-stream" onclick="selectEra('stream')">2010s–20s</button>
+            </div>
+
+            <div>
+              <span class="chip chip-story" id="era-period-badge">1920s–1950s · 印刷樂譜與大樂團</span>
+              <h3 id="era-title" style="margin-top: var(--space-sm);">叮砰巷時期與爵士標準曲</h3>
+              <p id="era-summary" style="font-size: 0.96rem; margin-bottom: 0;">
+                在錄音尚未普及前，商業重心在於實體樂譜販售。作曲家發展出標準化的 32 小節 AABA 曲式，旋律流暢優雅、和聲大量運用爵士七和弦與九和弦轉調。
+              </p>
+            </div>
+
+            <dl class="meta-kv-list">
+              <div class="meta-kv">
+                <dt>主流商業媒介</dt>
+                <dd id="era-media">實體樂譜、78 轉蟲膠唱片、廣播現場</dd>
+              </div>
+              <div class="meta-kv">
+                <dt>主導曲式結構</dt>
+                <dd id="era-form">32 小節 AABA 曲式（Refrain 結尾記憶點）</dd>
+              </div>
+              <div class="meta-kv">
+                <dt>標誌音色與編制</dt>
+                <dd id="era-timbre">鋼琴、管弦大樂團、低沉抒情唱腔（Crooning）</dd>
+              </div>
+              <div class="meta-kv">
+                <dt>結構歷史遺產</dt>
+                <dd id="era-legacy">確立「前八小節定調＋B 段對比」的流行寫作語法</dd>
+              </div>
+            </dl>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: SCHOLARLY LINEAGE & SOURCES -->
+    <section id="sec-theory" class="story-section">
+      <div class="section-header">
+        <p class="kicker">
+          <span class="kicker-en">04 · MUSICOLOGICAL PERSPECTIVES</span>
+          <span class="kicker-zh">流行音樂學的研究視野</span>
+        </p>
+        <h2>當學院開始認真傾聽流行歌：從符號批判到大數據實證</h2>
+        <p>
+          過去傳統音樂學常以古典交響樂的曲式標準貶抑流行音樂「過於簡單」；然而近三十餘年來，流行音樂研究（Popular Music Studies）已建立起結合社會文化分析、專屬樂理建構與大規模資料科學的完整學科體系。
+        </p>
+      </div>
+
+      <div class="scholar-grid">
+        <article class="scholar-item">
+          <span class="scholar-year">1990s · 符號學與文化詮釋奠基</span>
+          <h3>Richard Middleton / Philip Tagg / Susan McClary</h3>
+          <p style="font-size: 0.95rem;">
+            Middleton 於《Studying Popular Music》（1990）區分了「樂句重複（musematic）」與「敘事重複（discursive）」，解釋為何律動反覆正是流行樂的核心魅力；Tagg 建立以音素（museme）為單位的符號分析法；McClary（1991, 2000）則揭示調性解決、節奏與常規背後蘊含的社會文化與性別敘事權力。
+          </p>
+        </article>
+
+        <article class="scholar-item">
+          <span class="scholar-year">2000s–2010s · 專屬流行樂理體系成形</span>
+          <h3>《Popular Music》與《Music Theory Online》學群</h3>
+          <p style="font-size: 0.95rem;">
+            隨著搖滾與流行曲庫累積，音樂理論學者（如 Trevor de Clercq、David Temperley 等）針對流行樂常見的調式和聲、四和弦循環以及導歌／副歌邊界進行語料庫標註，確立流行音樂擁有獨立於古典功能調性之外的「和聲循環語法」。
+          </p>
+        </article>
+
+        <article class="scholar-item">
+          <span class="scholar-year">2024–2025 · 曲庫量化與演算法時代檢驗</span>
+          <h3>Hamilton &amp; Pearce (2024) / Di Marco 等 (2025)</h3>
+          <p style="font-size: 0.95rem;">
+            近年發表於《Scientific Reports》等期刊的量化研究追蹤數十年跨度的流行歌曲旋律與歌詞特徵，指出當代流行音樂雖在音色製作與節奏密度上日益繁複，但核心旋律音高複雜度與歌詞詞彙結構呈現跨世代簡化與高度重複趨勢，精準呼應數位串流注意力經濟的篩選壓力。
+          </p>
+        </article>
+      </div>
+
+      <details class="method-note">
+        <summary>研究文獻脈絡與互動示範方法說明（點擊展開）</summary>
+        <div class="reading-col" style="padding-top: var(--space-md); font-size: 0.95rem; color: var(--on-surface-variant);">
+          <p>
+            <strong>學術文獻基礎：</strong>本專題整理自流行音樂學核心文獻與研究期刊脈絡，包含 Richard Middleton《Studying Popular Music》（1990）、Susan McClary《Feminine Endings》（1991）與《Conventional Wisdom》（2000）、Philip Tagg 流行音樂符號分析體系、<em>Popular Music</em>、<em>Music Analysis</em>、<em>Journal of Popular Music Studies</em>、<em>Popular Music and Society</em>、<em>IASPM Journal</em> 與 <em>Music Theory Online (MTO)</em> 等刊物之形式討論，以及 Hamilton &amp; Pearce（2024）與 Di Marco 等（2025, <em>Scientific Reports</em>）針對數十年流行曲庫演變之實證研究。
+          </p>
+          <p style="margin-bottom: 0;">
+            <strong>互動音訊與圖表說明：</strong>曲式張力曲線與歷史演進圖表旨在具象化上述文獻歸納之結構規律；和聲進行與 16 步進鼓組工作室透過 Tone.js 與瀏覽器 Web Audio 技術即時運算生成聲音示範，非播放任何受版權保護之商業錄音。
+          </p>
+        </div>
+      </details>
+    </section>
+
+  </main>
+
+  <script>
+    /* =========================================================================
+       DATA MODELS (Backtick literals throughout, no trailing commas)
+       ========================================================================= */
+    const formParadigms = {
+      classic: {
+        name: `經典主副歌敘事型 (1970s–2000s)`,
+        formula: `I – V1 – PC – C – V2 – PC – C – B – C – O`,
+        sections: [
+          {
+            id: `intro`,
+            code: `I`,
+            name: `前奏`,
+            tag: `INTRO · 世界觀建立`,
+            fullTitle: `前奏 (Intro)`,
+            energy: 28,
+            weight: 8,
+            desc: `在人聲進入前建立調性、速度與音色氛圍。經典搖滾與流行曲常保留 4 至 8 小節的樂器記憶點（Riff）作為開場。`,
+            lyric: `無歌詞（純器樂鋪陳）`,
+            harmony: `主和弦鋪底或標誌性吉他／鋼琴動機`
+          },
+          {
+            id: `v1`,
+            code: `V1`,
+            name: `主歌 1`,
+            tag: `VERSE 1 · 敘事鋪陳`,
+            fullTitle: `第一段主歌 (Verse 1)`,
+            energy: 42,
+            weight: 13,
+            desc: `音域保持在舒適中低音區，配器刻意留白（僅保留鼓、貝斯與單一和聲樂器），讓聽眾專注於故事細節的展開。`,
+            lyric: `交代人物、場景與事件起因`,
+            harmony: `穩定的四小節循環，節奏感較貼近口語`
+          },
+          {
+            id: `pc1`,
+            code: `PC`,
+            name: `導歌`,
+            tag: `PRE-CHORUS · 張力蓄能`,
+            fullTitle: `導歌 (Pre-Chorus)`,
+            energy: 68,
+            weight: 9,
+            desc: `扮演主歌與副歌間的斜坡。和聲常改由下屬和弦或關係小調出發，鼓點加密，製造「即將爆發」的心理預期。`,
+            lyric: `情緒收束與提問，準備點題`,
+            harmony: `懸置和聲走向屬和弦 (V)，積累解決渴望`
+          },
+          {
+            id: `c1`,
+            code: `C`,
+            name: `副歌 1`,
+            tag: `CHORUS 1 · 記憶點爆發`,
+            fullTitle: `副歌 (Chorus)`,
+            energy: 90,
+            weight: 14,
+            desc: `全曲音高、響度與情感的中心。歌名通常置於此處，以簡潔反覆的旋律線條確保聽眾聽過一次就能跟著哼唱。`,
+            lyric: `提煉普世共鳴與核心金句 (Hook)`,
+            harmony: `最強烈的和聲解決，全頻段樂器齊奏`
+          },
+          {
+            id: `v2`,
+            code: `V2`,
+            name: `主歌 2`,
+            tag: `VERSE 2 · 推進情節`,
+            fullTitle: `第二段主歌 (Verse 2)`,
+            energy: 48,
+            weight: 11,
+            desc: `副歌過後刻意降溫，但通常比第一段主歌多加入一項節奏或打擊樂器，讓歌曲維持前進感而不顯疲乏。`,
+            lyric: `推進時間軸或深化衝突細節`,
+            harmony: `沿用 V1 和聲骨架，微調律動層次`
+          },
+          {
+            id: `pc2`,
+            code: `PC`,
+            name: `導歌`,
+            tag: `PRE-CHORUS · 再次推升`,
+            fullTitle: `導歌 (Pre-Chorus)`,
+            energy: 72,
+            weight: 8,
+            desc: `再度拉高能量，提醒聽眾副歌即將回歸；熟悉的導歌旋律成為連結第二段副歌的心理觸發器。`,
+            lyric: `強化核心情緒的必然性`,
+            harmony: `過門鼓點加密，強化屬七和弦張力`
+          },
+          {
+            id: `c2`,
+            code: `C`,
+            name: `副歌 2`,
+            tag: `CHORUS 2 · 雙倍鞏固`,
+            fullTitle: `第二段副歌 (Chorus 2)`,
+            energy: 92,
+            weight: 13,
+            desc: `完全再現或加上合聲疊加，透過第二次高強度重複將副歌徹底烙印在聽眾短期記憶中。`,
+            lyric: `鞏固記憶點，維持一致口號`,
+            harmony: `高音合聲與立體聲寬度進一步展開`
+          },
+          {
+            id: `bridge`,
+            code: `B`,
+            name: `橋段`,
+            tag: `BRIDGE · 第三空間轉折`,
+            fullTitle: `橋段 (Bridge)`,
+            energy: 64,
+            weight: 10,
+            desc: `避免連續三次主副歌造成審美疲勞的關鍵設計。常突然抽空鼓組或轉往陌生和弦，改變節拍呼吸，再蓄力衝刺最終副歌。`,
+            lyric: `視角抽離、反轉或揭示深層悟道`,
+            harmony: `轉調或借用非自然音階和弦製造新鮮感`
+          },
+          {
+            id: `c3`,
+            code: `C`,
+            name: `最終副歌`,
+            tag: `FINAL CHORUS · 全曲巔峰`,
+            fullTitle: `最終副歌 (Final Chorus)`,
+            energy: 98,
+            weight: 14,
+            desc: `經過橋段的對比洗禮後，最終副歌常加入高八度即興演唱（Ad-libs）或升半音轉調，達到全曲最大情感釋放。`,
+            lyric: `重複點題，在最高張力中完成情緒閉環`,
+            harmony: `全樂團滿編與華麗合聲墊底`
+          },
+          {
+            id: `outro`,
+            code: `O`,
+            name: `尾奏`,
+            tag: `OUTRO · 餘韻收束`,
+            fullTitle: `尾奏 (Outro)`,
+            energy: 30,
+            weight: 7,
+            desc: `漸弱淡出（Fade-out）讓歌曲彷彿仍在延續，或以乾淨的斷奏收尾（Cold Ending）留下深刻頓點。`,
+            lyric: `無歌詞或反覆吟唱副歌殘響`,
+            harmony: `回歸主和弦或懸停在餘韻動機`
+          }
+        ]
+      },
+      aaba: {
+        name: `AABA 32 小節傳統型 (1920s–1950s)`,
+        formula: `Intro – A(8小節) – A'(8小節) – B(8小節) – A''(8小節)`,
+        sections: [
+          {
+            id: `aaba-intro`,
+            code: `I`,
+            name: `引子`,
+            tag: `VERSE-INTRO · 鋪陳引導`,
+            fullTitle: `樂團引子 / 宣敘引導`,
+            energy: 32,
+            weight: 10,
+            desc: `早期音樂劇與叮砰巷歌曲常有自由節拍的「引子（Verse）」負責交代劇情，之後才進入正式的 32 小節主體。`,
+            lyric: `口語化鋪陳情境`,
+            harmony: `半音階過渡，導向主調`
+          },
+          {
+            id: `a1`,
+            code: `A1`,
+            name: `A 段 (8小節)`,
+            tag: `A SECTION · 主題與 Refrain`,
+            fullTitle: `第一段 A (主題陳述)`,
+            energy: 56,
+            weight: 22,
+            desc: `沒有現代意義上「獨立且更大聲」的副歌；歌名與核心記憶句（Refrain）通常嵌在 A 段的開頭或最後兩小節。`,
+            lyric: `陳述核心意象並帶出標題句`,
+            harmony: `I – vi – ii – V 爵士標準進行`
+          },
+          {
+            id: `a2`,
+            code: `A2`,
+            name: `A' 段 (8小節)`,
+            tag: `A' SECTION · 主題重複深化`,
+            fullTitle: `第二段 A' (重複鞏固)`,
+            energy: 60,
+            weight: 22,
+            desc: `重複幾乎相同的旋律與和聲，僅更換前幾句歌詞，讓聽眾在極短時間內徹底熟悉主旋律線條。`,
+            lyric: `延伸情境並再次落回標題句`,
+            harmony: `重複 A1 和聲，終止於穩定的主和弦 (I)`
+          },
+          {
+            id: `b`,
+            code: `B`,
+            name: `B 段橋樑 (8小節)`,
+            tag: `B SECTION (MIDDLE EIGHT) · 對比中段`,
+            fullTitle: `B 段中八小節 (Bridge / Release)`,
+            energy: 78,
+            weight: 23,
+            desc: `在兩輪 A 段之後立刻切入不同調性色彩與旋律曲線，英語常稱 Middle Eight，用來打破重複感並製造戲劇張力。`,
+            lyric: `情緒轉折、疑問或視角切換`,
+            harmony: `常轉往屬調或下屬調（IV / III⁷ / VI⁷）`
+          },
+          {
+            id: `a3`,
+            code: `A3`,
+            name: `A'' 段再現`,
+            tag: `A'' SECTION · 圓滿回歸`,
+            fullTitle: `最終再現 A'' 段`,
+            energy: 72,
+            weight: 23,
+            desc: `重新回到最初熟悉的 A 段旋律，帶來強烈的「回家感」與結構完整性。經典爵士樂與早年披頭四作品常採用此結構。`,
+            lyric: `最後一次重申核心標題句`,
+            harmony: `經典 ii – V – I 完美終止`
+          }
+        ]
+      },
+      streaming: {
+        name: `串流副歌前置型 (2010s–2020s)`,
+        formula: `Hook/C – V1 – PC – C – Post-C – V2 – C – B – C`,
+        sections: [
+          {
+            id: `hook0`,
+            code: `C0`,
+            name: `開場鉤子`,
+            tag: `CHORUS-FIRST · 前五秒留客`,
+            fullTitle: `無前奏直入／副歌前置 (Chorus-First)`,
+            energy: 82,
+            weight: 12,
+            desc: `因應串流平台跳歌風險，取消長前奏，在 0 至 5 秒內直接以人聲清唱或副歌精華開局，立刻抓住注意力。`,
+            lyric: `第一句即點出歌名或抓耳韻腳`,
+            harmony: `極簡低音鋪底或直接揭示副歌核心動機`
+          },
+          {
+            id: `sv1`,
+            code: `V1`,
+            name: `短主歌 1`,
+            tag: `COMPRESSED VERSE · 高密度節奏`,
+            fullTitle: `壓縮主歌 (Compressed Verse)`,
+            energy: 46,
+            weight: 11,
+            desc: `主歌篇幅更短、節奏語氣更緊湊（常受嘻哈／Trap 影響），通常僅 8 小節便迅速推進，避免拖慢節奏。`,
+            lyric: `碎片化意象與押韻密度極高的短句`,
+            harmony: `僅保留重低音 808 與稀疏合成器`
+          },
+          {
+            id: `spc1`,
+            code: `PC`,
+            name: `短導歌`,
+            tag: `PRE-CHORUS · 迅速拉升`,
+            fullTitle: `快速爬升導歌`,
+            energy: 74,
+            weight: 8,
+            desc: `利用白噪音上升音效（Riser）與突然抽空低頻（Drop-out），在 4 小節內將能量瞬間拉滿。`,
+            lyric: `簡短重複的轉折句`,
+            harmony: `踏板低音（Pedal Point）製造緊繃感`
+          },
+          {
+            id: `sc1`,
+            code: `C1`,
+            name: `完整副歌`,
+            tag: `CHORUS · 30秒內抵達高潮`,
+            fullTitle: `第一段完整副歌`,
+            energy: 94,
+            weight: 14,
+            desc: `在歌曲第 25 至 40 秒內抵達完整副歌，確保在串流計費門檻前提供最大聽覺回報。`,
+            lyric: `核心金句與記憶韻律反覆強化`,
+            harmony: `重低音與合成器牆全面釋放`
+          },
+          {
+            id: `postc`,
+            code: `P-C`,
+            name: `後副歌`,
+            tag: `POST-CHORUS · 器樂/吟唱延續`,
+            fullTitle: `後副歌 (Post-Chorus / Drop)`,
+            energy: 88,
+            weight: 10,
+            desc: `當代流行曲極具代表性的新增段落：在唱完副歌後不急著降溫，而是接一段洗腦的電子 Drop 或無意義吟唱（如 "Ooh / Yeah"）供短影音截取。`,
+            lyric: `極簡擬聲詞或單字重複`,
+            harmony: `延續副歌和弦，強調律動切分`
+          },
+          {
+            id: `sv2`,
+            code: `V2`,
+            name: `短主歌 2`,
+            tag: `VERSE 2 · 快速切換`,
+            fullTitle: `第二段短主歌`,
+            energy: 54,
+            weight: 10,
+            desc: `比第一段更短或直接改由客座饒舌歌手（Featuring）接棒，以音色反差維持新鮮度。`,
+            lyric: `第二視角補充或高速韻腳段落`,
+            harmony: `維持主和弦迴圈，強化 Hi-hat 碎拍`
+          },
+          {
+            id: `sc2`,
+            code: `C2`,
+            name: `副歌 2`,
+            tag: `CHORUS 2 · 重複記憶`,
+            fullTitle: `第二段副歌`,
+            energy: 95,
+            weight: 13,
+            desc: `再次強化副歌與後副歌，歌曲總長度通常控制在 2 分 30 秒至 3 分 10 秒之間，以利單曲循環播放（Replayability）。`,
+            lyric: `一致的金句口號`,
+            harmony: `全編制高密度音牆`
+          },
+          {
+            id: `sb`,
+            code: `B`,
+            name: `短橋段`,
+            tag: `MINI-BRIDGE · 精簡轉折`,
+            fullTitle: `精簡橋段或氛圍段落`,
+            energy: 62,
+            weight: 8,
+            desc: `傳統橋段常被壓縮至 4 至 8 小節，甚至由人聲濾波器處理（Lo-fi filter）直接取代傳統轉調。`,
+            lyric: `一句核心反思`,
+            harmony: `暫時抽離低頻與鼓組`
+          },
+          {
+            id: `sc3`,
+            code: `C3`,
+            name: `終極副歌`,
+            tag: `FINAL CHORUS · 乾淨收尾`,
+            fullTitle: `最終副歌與急速收尾`,
+            energy: 97,
+            weight: 14,
+            desc: `不再使用 1980 年代流行的冗長 Fade-out，而是直接收束在高能副歌最後一拍，促成聽眾按下重播鍵。`,
+            lyric: `點題收尾`,
+            harmony: `乾淨俐落的冷收尾 (Cold Ending)`
+          }
+        ]
+      }
+    };
+
+    const chordProgressions = {
+      axis: {
+        label: `I – V – vi – IV`,
+        desc: `經典流行抒情與舞曲核心骨幹`,
+        chords: [
+          { deg: `I`, name: `C`, notes: [`C4`, `E4`, `G4`], bass: `C2` },
+          { deg: `V`, name: `G`, notes: [`B3`, `D4`, `G4`], bass: `G2` },
+          { deg: `vi`, name: `Am`, notes: [`C4`, `E4`, `A4`], bass: `A2` },
+          { deg: `IV`, name: `F`, notes: [`C4`, `F4`, `A4`], bass: `F2` }
+        ]
+      },
+      sensitive: {
+        label: `vi – IV – I – V`,
+        desc: `以關係小調起頭，營造深沉渴望與推進張力`,
+        chords: [
+          { deg: `vi`, name: `Am`, notes: [`C4`, `E4`, `A4`], bass: `A2` },
+          { deg: `IV`, name: `F`, notes: [`C4`, `F4`, `A4`], bass: `F2` },
+          { deg: `I`, name: `C`, notes: [`C4`, `E4`, `G4`], bass: `C2` },
+          { deg: `V`, name: `G`, notes: [`B3`, `D4`, `G4`], bass: `G2` }
+        ]
+      },
+      canon: {
+        label: `I – V – vi – iii (卡農序列)`,
+        desc: `帕海貝爾卡農下行低音語法，兼具懷舊與莊重感`,
+        chords: [
+          { deg: `I`, name: `C`, notes: [`E4`, `G4`, `C5`], bass: `C3` },
+          { deg: `V`, name: `G`, notes: [`D4`, `G4`, `B4`], bass: `B2` },
+          { deg: `vi`, name: `Am`, notes: [`C4`, `E4`, `A4`], bass: `A2` },
+          { deg: `iii`, name: `Em`, notes: [`B3`, `E4`, `G4`], bass: `G2` }
+        ]
+      },
+      jazz: {
+        label: `ii⁷ – V⁷ – Imaj⁷ – vi⁷`,
+        desc: `爵士與都會 R&B / City Pop 標誌性的柔和七和弦色彩`,
+        chords: [
+          { deg: `ii⁷`, name: `Dm⁷`, notes: [`C4`, `D4`, `F4`, `A4`], bass: `D2` },
+          { deg: `V⁷`, name: `G⁷`, notes: [`B3`, `D4`, `F4`, `G4`], bass: `G2` },
+          { deg: `Imaj⁷`, name: `Cmaj⁷`, notes: [`B3`, `E4`, `G4`, `C5`], bass: `C2` },
+          { deg: `vi⁷`, name: `Am⁷`, notes: [`C4`, `E4`, `G4`, `A4`], bass: `A2` }
+        ]
+      }
+    };
+
+    const groovePresets = {
+      backbeat: {
+        desc: `第 2、4 拍的軍鼓反拍（Backbeat）是搖滾與流行樂讓人自然點頭的身體密碼。`,
+        kick:  [1,0,0,0, 0,0,0,0, 1,0,1,0, 0,0,0,0],
+        snare: [0,0,0,0, 1,0,0,0, 0,0,0,0, 1,0,0,0],
+        hat:   [1,0,1,0, 1,0,1,0, 1,0,1,0, 1,0,1,0]
+      },
+      four: {
+        desc: `每拍穩定重擊的四四拍大鼓（Four-on-the-Floor），常見於迪斯可、Synth-Pop 與 EDM 舞曲。`,
+        kick:  [1,0,0,0, 1,0,0,0, 1,0,0,0, 1,0,0,0],
+        snare: [0,0,0,0, 1,0,0,0, 0,0,0,0, 1,0,0,0],
+        hat:   [0,0,1,0, 0,0,1,0, 0,0,1,0, 0,0,1,0]
+      },
+      rnb: {
+        desc: `大鼓與軍鼓避開正拍切分，預留更多微時差空間（Pocket），營造 R&B 的慵懶搖曳感。`,
+        kick:  [1,0,0,1, 0,0,1,0, 0,0,1,0, 0,1,0,0],
+        snare: [0,0,0,0, 1,0,0,0, 0,0,0,0, 1,0,0,0],
+        hat:   [1,1,1,0, 1,0,1,1, 1,0,1,0, 1,1,1,0]
+      },
+      trap: {
+        desc: `軍鼓退居第 3 拍形成半拍感（Half-time），搭配 16 分音符密集 Hi-hat 滾奏主導當代榜單。`,
+        kick:  [1,0,0,0, 0,0,1,0, 0,0,0,1, 0,0,0,0],
+        snare: [0,0,0,0, 0,0,0,0, 1,0,0,0, 0,0,0,0],
+        hat:   [1,1,1,1, 1,0,1,1, 1,1,1,1, 1,1,0,1]
+      }
+    };
+
+    const arrangementLayers = {
+      verse: {
+        title: `主歌 (Verse)：留白與敘事空間`,
+        note: `低頻與高頻配器保持克制，將中頻空間讓給主唱人聲敘說故事細節，為後續進入副歌保留動態餘裕（Headroom）。`,
+        bars: [
+          { name: `超低頻 Sub-Bass`, pct: 35, blue: false },
+          { name: `節奏鼓組 Drums`, pct: 45, blue: false },
+          { name: `和聲鋪底 Pads/Keys`, pct: 50, blue: true },
+          { name: `器樂對位 Riff`, pct: 25, blue: true },
+          { name: `主唱與合聲 Vocals`, pct: 65, blue: false }
+        ]
+      },
+      pre: {
+        title: `導歌 (Pre-Chorus)：累積向上的不穩定感`,
+        note: `和聲開始轉換為張力較強的進行，鼓點過門或合成器上升掃頻逐漸拉近距離，提示聽眾情緒即將翻越臨界點。`,
+        bars: [
+          { name: `超低頻 Sub-Bass`, pct: 55, blue: false },
+          { name: `節奏鼓組 Drums`, pct: 70, blue: false },
+          { name: `和聲鋪底 Pads/Keys`, pct: 75, blue: true },
+          { name: `器樂對位 Riff`, pct: 60, blue: true },
+          { name: `主唱與合聲 Vocals`, pct: 80, blue: false }
+        ]
+      },
+      chorus: {
+        title: `副歌 (Chorus)：全頻段飽滿釋放`,
+        note: `左右聲道展開吉他或合成器音牆，加入雙軌或三度音合聲厚化主旋律，讓全曲聽覺寬度與能量在瞬間最大化。`,
+        bars: [
+          { name: `超低頻 Sub-Bass`, pct: 95, blue: false },
+          { name: `節奏鼓組 Drums`, pct: 95, blue: false },
+          { name: `和聲鋪底 Pads/Keys`, pct: 90, blue: true },
+          { name: `器樂對位 Riff`, pct: 85, blue: true },
+          { name: `主唱與合聲 Vocals`, pct: 100, blue: false }
+        ]
+      },
+      bridge: {
+        title: `橋段 (Bridge)：減法創造的高級對比`,
+        note: `與其比副歌更大聲，多數優秀編曲會在此處抽離低頻與主鼓組，改以空靈鋼琴或人聲清唱製造「暴風雨前的寧靜」。`,
+        bars: [
+          { name: `超低頻 Sub-Bass`, pct: 20, blue: false },
+          { name: `節奏鼓組 Drums`, pct: 30, blue: false },
+          { name: `和聲鋪底 Pads/Keys`, pct: 85, blue: true },
+          { name: `器樂對位 Riff`, pct: 40, blue: true },
+          { name: `主唱與合聲 Vocals`, pct: 90, blue: false }
+        ]
+      }
+    };
+
+    const eraData = {
+      tinpan: {
+        badge: `1920s–1950s · 印刷樂譜與大樂團`,
+        title: `叮砰巷時期與爵士標準曲`,
+        summary: `在錄音尚未普及前，商業重心在於實體樂譜販售。作曲家發展出標準化的 32 小節 AABA 曲式，旋律流暢優雅、和聲大量運用爵士七和弦與九和弦轉調。`,
+        media: `實體樂譜、78 轉蟲膠唱片、廣播現場`,
+        form: `32 小節 AABA 曲式（Refrain 結尾記憶點）`,
+        timbre: `鋼琴、管弦大樂團、低沉抒情唱腔（Crooning）`,
+        legacy: `確立「前八小節定調＋B 段對比」的流行寫作語法`,
+        introSec: 12,
+        chorusSec: 45
+      },
+      rock: {
+        badge: `1950s–1960s · 七吋黑膠與電台單曲`,
+        title: `搖滾誕生、摩城之聲與主副歌成形`,
+        summary: `7 吋 45 轉黑膠唱片的物理溝槽將單曲時間限制在約 3 分鐘內，迫使音樂走向精煉直接。十二小節藍調、反拍重音與摩城唱片精準的兩段式副歌徹底改寫大眾聽覺。`,
+        media: `45 轉 7 吋黑膠、AM 調幅廣播電台、點唱機`,
+        form: `12 小節藍調進階為早期 Verse–Chorus 曲式`,
+        timbre: `電吉他破音、原聲鼓組、銅管齊奏與和聲團`,
+        legacy: `奠定以電吉他與反拍軍鼓為核心的當代樂團編制`,
+        introSec: 14,
+        chorusSec: 38
+      },
+      mtv: {
+        badge: `1970s–1980s · 迪斯可、合成器與 MTV`,
+        title: `合成器音牆與競技場搖滾副歌`,
+        summary: `FM 調頻廣播追求高保真音質，類比與數位合成器（如 DX7）加上 gated reverb 鼓聲創造巨大空間感；MTV 開播更促使樂手在曲中設計極具視覺戲劇張力的前奏與高亢副歌。`,
+        media: `FM 廣播、卡帶隨身聽、MTV 音樂電視頻道`,
+        form: `標準 Verse – Pre-Chorus – Chorus – Bridge 普及`,
+        timbre: `類比合成器、鼓機 (TR-808)、重殘響軍鼓`,
+        legacy: `確立「長前奏鋪陳＋戲劇化橋段＋最後升調副歌」黃金範式`,
+        introSec: 22,
+        chorusSec: 52
+      },
+      digital: {
+        badge: `1990s–2000s · 嘻哈取樣、DAW 與響度戰爭`,
+        title: `數位工作站與跨界製作人主導時代`,
+        summary: `電腦數位音訊工作站（DAW）與取樣機讓製作人能在臥室拼貼節奏與旋律；Hip-Hop 與 R&B 的切分律動取代傳統搖滾成為主流，母帶後製也進入壓縮比極高的「響度時代」。`,
+        media: `CD 專輯、MP3 數位下載 (iTunes 30 秒試聽)`,
+        form: `四和弦循環搭配饒舌客串橋段 (Rap Feature)`,
+        timbre: `MPC 取樣碎片、極度壓縮的鼓組、Auto-Tune 修音`,
+        legacy: `製作人取代樂團主導曲式，節奏 Loop 成為創作起點`,
+        introSec: 15,
+        chorusSec: 42
+      },
+      stream: {
+        badge: `2010s–2020s · 串流演算法與短影音經濟`,
+        title: `前五秒定勝負：前奏消逝與副歌前置`,
+        summary: `當 Spotify 等平台以播放滿 30 秒作為版稅計費基準、短影音以 15 秒高光決定病毒傳播時，現代流行樂大幅砍除前奏，將副歌或旋律鉤子提前到開場，曲長也普遍壓縮至三分鐘內。`,
+        media: `串流平台歌單演算法、TikTok / Reels 短影音`,
+        form: `Chorus-First / Post-Chorus Drop / 迷你橋段`,
+        timbre: `808 重低音、Trap 高速鈸聲、貼耳極簡氣聲人聲`,
+        legacy: `注意力經濟重寫音樂時間軸，重播率 (Replay) 勝過線性鋪陳`,
+        introSec: 4,
+        chorusSec: 22
+      }
+    };
+
+    const historyPoints = [
+      { decade: `1950s`, eraKey: `tinpan`, intro: 12, firstChorus: 45, note: `AABA 與引子鋪陳` },
+      { decade: `1960s`, eraKey: `rock`,   intro: 14, firstChorus: 38, note: `7吋單曲約 3 分鐘限制` },
+      { decade: `1970s`, eraKey: `mtv`,    intro: 20, firstChorus: 48, note: `長篇器樂前奏興盛` },
+      { decade: `1980s`, eraKey: `mtv`,    intro: 22, firstChorus: 52, note: `MTV 與合成器高峰` },
+      { decade: `1990s`, eraKey: `digital`,intro: 16, firstChorus: 44, note: `CD 與嘻哈節奏轉向` },
+      { decade: `2000s`, eraKey: `digital`,intro: 14, firstChorus: 40, note: `數位下載 30s 試聽` },
+      { decade: `2010s`, eraKey: `stream`, intro: 8,  firstChorus: 29, note: `串流 30s 計費效應` },
+      { decade: `2020s`, eraKey: `stream`, intro: 4,  firstChorus: 22, note: `短影音副歌前置化` }
+    ];
+
+    /* =========================================================================
+       STATE & AUDIO ENGINE (Tone.js with safe fallback)
+       ========================================================================= */
+    let currentFormKey = `classic`;
+    let currentSectionIdx = 3;
+    let currentProgKey = `axis`;
+    let currentBpm = 108;
+    let currentGrooveKey = `backbeat`;
+    let customGroove = {
+      kick:  groovePresets.backbeat.kick.slice(),
+      snare: groovePresets.backbeat.snare.slice(),
+      hat:   groovePresets.backbeat.hat.slice()
+    };
+
+    let activeAudioMode = null; // 'form' | 'harmony' | 'groove' | null
+    let formTimers = [];
+    let loopTimer = null;
+    let tonePoly = null;
+    let toneBass = null;
+    let toneKick = null;
+    let toneSnare = null;
+    let toneHat = null;
+    let fallbackCtx = null;
+
+    function getCssVar(name) {
+      return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+    }
+
+    async function ensureAudioReady() {
+      if (typeof Tone !== `undefined`) {
+        try {
+          await Tone.start();
+          if (!tonePoly) {
+            tonePoly = new Tone.PolySynth(Tone.Synth, {
+              oscillator: { type: `triangle` },
+              envelope: { attack: 0.03, decay: 0.25, sustain: 0.45, release: 0.8 },
+              volume: -10
+            }).toDestination();
+          }
+          if (!toneBass) {
+            toneBass = new Tone.MonoSynth({
+              oscillator: { type: `sine` },
+              envelope: { attack: 0.02, decay: 0.2, sustain: 0.5, release: 0.4 },
+              volume: -8
+            }).toDestination();
+          }
+          if (!toneKick) {
+            toneKick = new Tone.MembraneSynth({
+              pitchDecay: 0.05,
+              octaves: 5,
+              envelope: { attack: 0.002, decay: 0.25, sustain: 0.01, release: 0.2 },
+              volume: -6
+            }).toDestination();
+          }
+          if (!toneSnare) {
+            toneSnare = new Tone.NoiseSynth({
+              noise: { type: `white` },
+              envelope: { attack: 0.002, decay: 0.14, sustain: 0 },
+              volume: -14
+            }).toDestination();
+          }
+          if (!toneHat) {
+            toneHat = new Tone.MetalSynth({
+              frequency: 320,
+              envelope: { attack: 0.001, decay: 0.05, release: 0.02 },
+              harmonicity: 5.1,
+              modulationIndex: 32,
+              resonance: 3500,
+              octaves: 1.5,
+              volume: -20
+            }).toDestination();
+          }
+          return `tone`;
+        } catch (err) {
+          // Fall through to native Web Audio
+        }
+      }
+      if (!fallbackCtx && (window.AudioContext || window.webkitAudioContext)) {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        fallbackCtx = new AudioCtx();
+      }
+      if (fallbackCtx && fallbackCtx.state === `suspended`) {
+        await fallbackCtx.resume();
+      }
+      return fallbackCtx ? `webaudio` : `none`;
+    }
+
+    function noteNameToFreq(note) {
+      const map = {
+        'C2': 65.41, 'D2': 73.42, 'F2': 87.31, 'G2': 98.00, 'A2': 110.00, 'B2': 123.47,
+        'C3': 130.81, 'D3': 146.83, 'E3': 164.81, 'F3': 174.61, 'G3': 196.00, 'A3': 220.00, 'B3': 246.94,
+        'C4': 261.63, 'D4': 293.66, 'E4': 329.63, 'F4': 349.23, 'G4': 392.00, 'A4': 440.00, 'B4': 493.88,
+        'C5': 523.25
+      };
+      return map[note] || 261.63;
+    }
+
+    function playSynthChord(notes, bassNote, durationSec, engine) {
+      if (engine === `tone` && tonePoly && toneBass) {
+        tonePoly.triggerAttackRelease(notes, durationSec);
+        if (bassNote) toneBass.triggerAttackRelease(bassNote, durationSec * 0.9);
+      } else if (engine === `webaudio` && fallbackCtx) {
+        const now = fallbackCtx.currentTime;
+        const all = bassNote ? notes.concat([bassNote]) : notes;
+        all.forEach(function(n) {
+          const osc = fallbackCtx.createOscillator();
+          const gain = fallbackCtx.createGain();
+          osc.type = `triangle`;
+          osc.frequency.setValueAtTime(noteNameToFreq(n), now);
+          gain.gain.setValueAtTime(0.06, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + durationSec);
+          osc.connect(gain);
+          gain.connect(fallbackCtx.destination);
+          osc.start(now);
+          osc.stop(now + durationSec);
+        });
+      }
+    }
+
+    function playDrumHit(type, engine) {
+      if (engine === `tone`) {
+        if (type === `kick` && toneKick) toneKick.triggerAttackRelease(`C1`, `8n`);
+        if (type === `snare` && toneSnare) toneSnare.triggerAttackRelease(`16n`);
+        if (type === `hat` && toneHat) toneHat.triggerAttackRelease(`32n`);
+      } else if (engine === `webaudio` && fallbackCtx) {
+        const now = fallbackCtx.currentTime;
+        const osc = fallbackCtx.createOscillator();
+        const gain = fallbackCtx.createGain();
+        if (type === `kick`) {
+          osc.frequency.setValueAtTime(140, now);
+          osc.frequency.exponentialRampToValueAtTime(42, now + 0.14);
+          gain.gain.setValueAtTime(0.22, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.16);
+        } else if (type === `snare`) {
+          osc.type = `square`;
+          osc.frequency.setValueAtTime(220, now);
+          gain.gain.setValueAtTime(0.08, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+        } else {
+          osc.type = `highpass` in osc ? `square` : `sine`;
+          osc.frequency.setValueAtTime(1200, now);
+          gain.gain.setValueAtTime(0.03, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
+        }
+        osc.connect(gain);
+        gain.connect(fallbackCtx.destination);
+        osc.start(now);
+        osc.stop(now + 0.18);
+      }
+    }
+
+    function updateAudioButtonLabels() {
+      const btnForm = document.getElementById(`btn-play-form`);
+      const btnHarm = document.getElementById(`btn-play-harmony`);
+      const btnGroove = document.getElementById(`btn-play-groove`);
+
+      if (btnForm) {
+        const span = btnForm.querySelector(`span`);
+        if (span) span.textContent = activeAudioMode === `form` ? `示範播放中…` : `試聽此曲式張力示範`;
+      }
+      if (btnHarm) {
+        const span = btnHarm.querySelector(`span`);
+        if (span) span.textContent = activeAudioMode === `harmony` ? `停止和聲` : `播放和聲`;
+      }
+      if (btnGroove) {
+        const span = btnGroove.querySelector(`span`);
+        if (span) span.textContent = activeAudioMode === `groove` ? `停止節奏` : `播放節奏`;
+      }
+    }
+
+    function stopAllAudio() {
+      formTimers.forEach(function(id) { clearTimeout(id); });
+      formTimers = [];
+      if (loopTimer) {
+        clearInterval(loopTimer);
+        loopTimer = null;
+      }
+      activeAudioMode = null;
+
+      document.querySelectorAll(`.section-block-btn`).forEach(function(el) {
+        el.classList.remove(`is-playing`);
+      });
+      document.querySelectorAll(`.chord-slot`).forEach(function(el) {
+        el.classList.remove(`is-step-active`);
+      });
+      document.querySelectorAll(`.beat-cell`).forEach(function(el) {
+        el.classList.remove(`is-playhead`);
+      });
+
+      const formStatus = document.getElementById(`form-audio-status`);
+      if (formStatus) formStatus.textContent = `即時合成示範（點選播放可聆聽各段落音色密度與張力推進）`;
+
+      updateAudioButtonLabels();
+    }
+
+    /* =========================================================================
+       SECTION 1: SONG FORM EXPLORER & SVG CURVE
+       ========================================================================= */
+    function selectFormParadigm(key) {
+      if (!formParadigms[key]) return;
+      if (activeAudioMode === `form`) stopAllAudio();
+      currentFormKey = key;
+      currentSectionIdx = key === `aaba` ? 1 : (key === `streaming` ? 0 : 3);
+
+      [`classic`, `aaba`, `streaming`].forEach(function(k) {
+        const btn = document.getElementById(`btn-form-` + k);
+        if (btn) btn.classList.toggle(`is-active`, k === key);
+      });
+
+      renderFormTimeline();
+      renderFormChart();
+      updateSectionDetail();
+    }
+
+    function selectFormSection(idx) {
+      const paradigm = formParadigms[currentFormKey];
+      if (!paradigm || !paradigm.sections[idx]) return;
+      currentSectionIdx = idx;
+
+      document.querySelectorAll(`.section-block-btn`).forEach(function(el, i) {
+        el.classList.toggle(`is-selected`, i === idx);
+      });
+      renderFormChart();
+      updateSectionDetail();
+    }
+
+    function updateSectionDetail() {
+      const paradigm = formParadigms[currentFormKey];
+      const sec = paradigm.sections[currentSectionIdx] || paradigm.sections[0];
+      const tag = document.getElementById(`sec-detail-tag`);
+      const title = document.getElementById(`sec-detail-title`);
+      const desc = document.getElementById(`sec-detail-desc`);
+      const formula = document.getElementById(`sec-detail-formula`);
+      const energy = document.getElementById(`sec-detail-energy`);
+      const lyric = document.getElementById(`sec-detail-lyric`);
+      const harmony = document.getElementById(`sec-detail-harmony`);
+
+      if (tag) tag.textContent = sec.tag;
+      if (title) title.textContent = sec.fullTitle;
+      if (desc) desc.textContent = sec.desc;
+      if (formula) formula.textContent = paradigm.formula;
+      if (energy) energy.textContent = sec.energy + ` / 100`;
+      if (lyric) lyric.textContent = sec.lyric;
+      if (harmony) harmony.textContent = sec.harmony;
+    }
+
+    function renderFormTimeline() {
+      const strip = document.getElementById(`form-timeline-strip`);
+      if (!strip) return;
+      const sections = formParadigms[currentFormKey].sections;
+      strip.innerHTML = ``;
+
+      sections.forEach(function(sec, idx) {
+        const btn = document.createElement(`button`);
+        btn.type = `button`;
+        btn.className = `section-block-btn` + (idx === currentSectionIdx ? ` is-selected` : ``);
+        btn.style.flex = String(sec.weight) + ` 1 0`;
+        btn.setAttribute(`aria-label`, sec.fullTitle);
+        btn.onclick = function() { selectFormSection(idx); };
+
+        const codeSpan = document.createElement(`span`);
+        codeSpan.className = `sec-code`;
+        codeSpan.textContent = sec.code;
+
+        const nameSpan = document.createElement(`span`);
+        nameSpan.className = `sec-name`;
+        nameSpan.textContent = sec.name;
+
+        btn.appendChild(codeSpan);
+        btn.appendChild(nameSpan);
+        strip.appendChild(btn);
+      });
+    }
+
+    function buildSmoothPath(points) {
+      if (points.length === 0) return ``;
+      let d = `M ` + points[0].x.toFixed(1) + ` ` + points[0].y.toFixed(1);
+      for (let i = 1; i < points.length; i++) {
+        const prev = points[i - 1];
+        const curr = points[i];
+        const cx = (prev.x + curr.x) / 2;
+        d += ` C ` + cx.toFixed(1) + ` ` + prev.y.toFixed(1) + `, ` + cx.toFixed(1) + ` ` + curr.y.toFixed(1) + `, ` + curr.x.toFixed(1) + ` ` + curr.y.toFixed(1);
+      }
+      return d;
+    }
+
+    function renderFormChart() {
+      const svg = document.getElementById(`form-svg`);
+      if (!svg) return;
+      const svgNS = `http://www.w3.org/2000/svg`;
+      svg.innerHTML = ``;
+
+      const W = 680;
+      const H = 270;
+      const padL = 42;
+      const padR = 64;
+      const padT = 26;
+      const padB = 34;
+      const plotW = W - padL - padR;
+      const plotH = H - padT - padB;
+
+      // Gridlines (0, 25, 50, 75, 100)
+      [0, 25, 50, 75, 100].forEach(function(val) {
+        const y = padT + plotH - (val / 100) * plotH;
+        const line = document.createElementNS(svgNS, `line`);
+        line.setAttribute(`x1`, padL);
+        line.setAttribute(`x2`, W - padR);
+        line.setAttribute(`y1`, y);
+        line.setAttribute(`y2`, y);
+        line.setAttribute(`class`, val === 0 ? `baseline` : `gridline`);
+        svg.appendChild(line);
+
+        const tick = document.createElementNS(svgNS, `text`);
+        tick.setAttribute(`x`, padL - 8);
+        tick.setAttribute(`y`, y + 4);
+        tick.setAttribute(`text-anchor`, `end`);
+        tick.setAttribute(`class`, `axis-tick`);
+        tick.textContent = String(val);
+        svg.appendChild(tick);
+      });
+
+      // Compute coordinates for active paradigm
+      const sections = formParadigms[currentFormKey].sections;
+      const totalWeight = sections.reduce(function(acc, s) { return acc + s.weight; }, 0);
+      let cursor = 0;
+      const points = sections.map(function(sec, idx) {
+        const midRatio = (cursor + sec.weight / 2) / totalWeight;
+        const x = padL + midRatio * plotW;
+        const y = padT + plotH - (sec.energy / 100) * plotH;
+        const xStart = padL + (cursor / totalWeight) * plotW;
+        const xW = (sec.weight / totalWeight) * plotW;
+        cursor += sec.weight;
+        return { x: x, y: y, xStart: xStart, xW: xW, sec: sec, idx: idx };
+      });
+
+      // Subtle context bars showing section durations
+      points.forEach(function(pt) {
+        const bar = document.createElementNS(svgNS, `rect`);
+        bar.setAttribute(`x`, pt.xStart + 2);
+        bar.setAttribute(`y`, padT + plotH - ((pt.sec.energy / 100) * plotH * 0.25));
+        bar.setAttribute(`width`, Math.max(4, pt.xW - 4));
+        bar.setAttribute(`height`, (pt.sec.energy / 100) * plotH * 0.25);
+        bar.setAttribute(`fill`, pt.idx === currentSectionIdx ? `var(--primary-container)` : `var(--surface-container-low)`);
+        svg.appendChild(bar);
+      });
+
+      // Comparison line: classic curve when viewing AABA or Streaming
+      if (currentFormKey !== `classic`) {
+        const refSecs = formParadigms.classic.sections;
+        const refTotal = refSecs.reduce(function(acc, s) { return acc + s.weight; }, 0);
+        let refCursor = 0;
+        const refPts = refSecs.map(function(s) {
+          const r = (refCursor + s.weight / 2) / refTotal;
+          refCursor += s.weight;
+          return {
+            x: padL + r * plotW,
+            y: padT + plotH - (s.energy / 100) * plotH
+          };
+        });
+        const compPath = document.createElementNS(svgNS, `path`);
+        compPath.setAttribute(`d`, buildSmoothPath(refPts));
+        compPath.setAttribute(`class`, `series-compare`);
+        svg.appendChild(compPath);
+
+        const lastRef = refPts[refPts.length - 1];
+        const compLbl = document.createElementNS(svgNS, `text`);
+        compLbl.setAttribute(`x`, lastRef.x + 10);
+        compLbl.setAttribute(`y`, lastRef.y + 4);
+        compLbl.setAttribute(`class`, `label-compare`);
+        compLbl.textContent = `經典基準`;
+        svg.appendChild(compLbl);
+      }
+
+      // Main story curve
+      const storyPath = document.createElementNS(svgNS, `path`);
+      storyPath.setAttribute(`d`, buildSmoothPath(points));
+      storyPath.setAttribute(`class`, `series-story`);
+      svg.appendChild(storyPath);
+
+      // Direct node points and click handlers
+      points.forEach(function(pt) {
+        const isSel = pt.idx === currentSectionIdx;
+        const dot = document.createElementNS(svgNS, `circle`);
+        dot.setAttribute(`cx`, pt.x);
+        dot.setAttribute(`cy`, pt.y);
+        dot.setAttribute(`r`, isSel ? `6.5` : `4`);
+        dot.setAttribute(`fill`, isSel ? `var(--on-surface)` : `var(--data-1)`);
+        dot.setAttribute(`stroke`, `var(--background)`);
+        dot.setAttribute(`stroke-width`, `2`);
+        dot.style.cursor = `pointer`;
+        dot.onclick = function() { selectFormSection(pt.idx); };
+        svg.appendChild(dot);
+
+        // Label at bottom x-axis
+        const xLbl = document.createElementNS(svgNS, `text`);
+        xLbl.setAttribute(`x`, pt.x);
+        xLbl.setAttribute(`y`, H - 10);
+        xLbl.setAttribute(`text-anchor`, `middle`);
+        xLbl.setAttribute(`class`, `axis-tick`);
+        if (isSel) {
+          xLbl.setAttribute(`fill`, `var(--on-surface)`);
+          xLbl.setAttribute(`font-weight`, `700`);
+        }
+        xLbl.textContent = pt.sec.code;
+        svg.appendChild(xLbl);
+
+        if (isSel) {
+          const valLbl = document.createElementNS(svgNS, `text`);
+          valLbl.setAttribute(`x`, pt.x);
+          valLbl.setAttribute(`y`, Math.max(16, pt.y - 12));
+          valLbl.setAttribute(`text-anchor`, `middle`);
+          valLbl.setAttribute(`class`, `label-story`);
+          valLbl.textContent = pt.sec.name + ` ` + pt.sec.energy;
+          svg.appendChild(valLbl);
+        }
+      });
+
+      // End label
+      const lastPt = points[points.length - 1];
+      const endLbl = document.createElementNS(svgNS, `text`);
+      endLbl.setAttribute(`x`, lastPt.x + 10);
+      endLbl.setAttribute(`y`, lastPt.y - 8);
+      endLbl.setAttribute(`class`, `label-story`);
+      endLbl.textContent = `張力曲線`;
+      svg.appendChild(endLbl);
+    }
+
+    async function toggleFormAudio() {
+      if (activeAudioMode === `form`) {
+        stopAllAudio();
+        return;
+      }
+      stopAllAudio();
+      const engine = await ensureAudioReady();
+      if (engine === `none`) {
+        const s = document.getElementById(`form-audio-status`);
+        if (s) s.textContent = `此瀏覽器環境不支援音訊輸出，請直接點選段落檢視文字解析。`;
+        return;
+      }
+
+      activeAudioMode = `form`;
+      updateAudioButtonLabels();
+      const sections = formParadigms[currentFormKey].sections;
+      const stepMs = 1150;
+      const buttons = document.querySelectorAll(`.section-block-btn`);
+      const formStatus = document.getElementById(`form-audio-status`);
+
+      sections.forEach(function(sec, idx) {
+        const tId = setTimeout(function() {
+          if (activeAudioMode !== `form`) return;
+          selectFormSection(idx);
+          buttons.forEach(function(b, bi) {
+            b.classList.toggle(`is-playing`, bi === idx);
+          });
+          if (formStatus) {
+            formStatus.textContent = `正在示範：` + sec.fullTitle + `（張力 ` + sec.energy + ` / 100）`;
+          }
+
+          // Synthesize arrangement density matching section energy
+          if (sec.energy >= 85) {
+            playSynthChord([`C4`, `E4`, `G4`, `C5`], `C2`, 0.9, engine);
+            playDrumHit(`kick`, engine);
+            setTimeout(function() { if (activeAudioMode === `form`) playDrumHit(`snare`, engine); }, 280);
+            setTimeout(function() { if (activeAudioMode === `form`) playDrumHit(`kick`, engine); }, 560);
+            setTimeout(function() { if (activeAudioMode === `form`) playDrumHit(`snare`, engine); }, 840);
+          } else if (sec.energy >= 62) {
+            playSynthChord([`D4`, `F4`, `A4`], `F2`, 0.9, engine);
+            playDrumHit(`kick`, engine);
+            setTimeout(function() { if (activeAudioMode === `form`) playDrumHit(`hat`, engine); }, 300);
+            setTimeout(function() { if (activeAudioMode === `form`) playDrumHit(`snare`, engine); }, 600);
+          } else {
+            playSynthChord([`C4`, `G4`], `C3`, 0.9, engine);
+            playDrumHit(`hat`, engine);
+          }
+
+          if (idx === sections.length - 1) {
+            const endTimer = setTimeout(function() {
+              stopAllAudio();
+            }, stepMs);
+            formTimers.push(endTimer);
+          }
+        }, idx * stepMs);
+        formTimers.push(tId);
+      });
+    }
+
+    /* =========================================================================
+       SECTION 2: HARMONY & RHYTHM STUDIO LAB
+       ========================================================================= */
+    function selectProgression(key) {
+      if (!chordProgressions[key]) return;
+      currentProgKey = key;
+
+      [`axis`, `sensitive`, `canon`, `jazz`].forEach(function(k) {
+        const btn = document.getElementById(`prog-btn-` + k);
+        if (btn) btn.classList.toggle(`is-active`, k === key);
+      });
+
+      renderChordSlots(-1);
+      updateHarmonyStatus();
+    }
+
+    function renderChordSlots(activeStep) {
+      const container = document.getElementById(`chord-slots-display`);
+      if (!container) return;
+      const prog = chordProgressions[currentProgKey];
+      container.innerHTML = ``;
+
+      prog.chords.forEach(function(ch, idx) {
+        const slot = document.createElement(`div`);
+        slot.className = `chord-slot` + (idx === activeStep ? ` is-step-active` : ``);
+
+        const deg = document.createElement(`span`);
+        deg.className = `deg`;
+        deg.textContent = ch.deg;
+
+        const name = document.createElement(`span`);
+        name.className = `name`;
+        name.textContent = ch.name;
+
+        slot.appendChild(deg);
+        slot.appendChild(name);
+        container.appendChild(slot);
+      });
+    }
+
+    function updateHarmonyStatus() {
+      const status = document.getElementById(`harmony-audio-status`);
+      const prog = chordProgressions[currentProgKey];
+      if (status && prog) {
+        status.textContent = `目前：` + prog.label + `（` + currentBpm + ` BPM）· ` + prog.desc;
+      }
+    }
+
+    function syncBpmFromSlider(val) {
+      const num = parseInt(val, 10);
+      if (isNaN(num)) return;
+      currentBpm = Math.min(140, Math.max(70, num));
+      const inputEl = document.getElementById(`input-bpm`);
+      if (inputEl) inputEl.value = String(currentBpm);
+      updateHarmonyStatus();
+      restartActiveLoopForTempo();
+    }
+
+    function syncBpmFromNumber(val) {
+      const num = parseInt(val, 10);
+      if (isNaN(num)) return;
+      currentBpm = Math.min(140, Math.max(70, num));
+      const sliderEl = document.getElementById(`slider-bpm`);
+      if (sliderEl) sliderEl.value = String(currentBpm);
+      updateHarmonyStatus();
+      restartActiveLoopForTempo();
+    }
+
+    function restartActiveLoopForTempo() {
+      if (activeAudioMode === `harmony`) {
+        stopAllAudio();
+        toggleHarmonyAudio();
+      } else if (activeAudioMode === `groove`) {
+        stopAllAudio();
+        toggleGrooveAudio();
+      }
+    }
+
+    async function toggleHarmonyAudio() {
+      if (activeAudioMode === `harmony`) {
+        stopAllAudio();
+        return;
+      }
+      stopAllAudio();
+      const engine = await ensureAudioReady();
+      if (engine === `none`) return;
+
+      activeAudioMode = `harmony`;
+      updateAudioButtonLabels();
+
+      let step = 0;
+      function tick() {
+        if (activeAudioMode !== `harmony`) return;
+        const prog = chordProgressions[currentProgKey];
+        const ch = prog.chords[step % prog.chords.length];
+        const beatSec = 60 / currentBpm;
+        renderChordSlots(step % prog.chords.length);
+        playSynthChord(ch.notes, ch.bass, beatSec * 1.75, engine);
+        step += 1;
+      }
+
+      tick();
+      const chordMs = (60 / currentBpm) * 2000;
+      loopTimer = setInterval(tick, chordMs);
+    }
+
+    /* 16-Step Beat Matrix */
+    function selectGroove(key) {
+      if (!groovePresets[key]) return;
+      currentGrooveKey = key;
+      customGroove = {
+        kick:  groovePresets[key].kick.slice(),
+        snare: groovePresets[key].snare.slice(),
+        hat:   groovePresets[key].hat.slice()
+      };
+
+      [`backbeat`, `four`, `rnb`, `trap`].forEach(function(k) {
+        const btn = document.getElementById(`groove-btn-` + k);
+        if (btn) btn.classList.toggle(`is-active`, k === key);
+      });
+
+      const desc = document.getElementById(`groove-desc`);
+      if (desc) desc.textContent = groovePresets[key].desc;
+
+      renderBeatMatrix(-1);
+    }
+
+    function toggleBeatCell(track, stepIdx) {
+      if (!customGroove[track]) return;
+      customGroove[track][stepIdx] = customGroove[track][stepIdx] ? 0 : 1;
+      renderBeatMatrix(-1);
+    }
+
+    function renderBeatMatrix(playheadStep) {
+      const container = document.getElementById(`beat-matrix-grid`);
+      if (!container) return;
+      container.innerHTML = ``;
+
+      const tracks = [
+        { key: `hat`, label: `Hi-Hat 銅鈸`, cls: `track-hat` },
+        { key: `snare`, label: `Snare 軍鼓`, cls: `track-snare` },
+        { key: `kick`, label: `Kick 大鼓`, cls: `track-kick` }
+      ];
+
+      tracks.forEach(function(tr) {
+        const row = document.createElement(`div`);
+        row.className = `beat-track`;
+
+        const lbl = document.createElement(`span`);
+        lbl.className = `beat-track-label`;
+        lbl.textContent = tr.label;
+        row.appendChild(lbl);
+
+        for (let i = 0; i < 16; i++) {
+          const cell = document.createElement(`button`);
+          cell.type = `button`;
+          const isOn = customGroove[tr.key][i] === 1;
+          cell.className = `beat-cell ` + tr.cls +
+            (i % 4 === 0 ? ` is-beat-start` : ``) +
+            (isOn ? ` is-on` : ``) +
+            (i === playheadStep ? ` is-playhead` : ``);
+          cell.setAttribute(`aria-label`, tr.label + ` 第 ` + (i + 1) + ` 步`);
+          cell.setAttribute(`aria-pressed`, isOn ? `true` : `false`);
+          (function(tKey, idx) {
+            cell.onclick = function() { toggleBeatCell(tKey, idx); };
+          })(tr.key, i);
+          row.appendChild(cell);
+        }
+        container.appendChild(row);
+      });
+    }
+
+    async function toggleGrooveAudio() {
+      if (activeAudioMode === `groove`) {
+        stopAllAudio();
+        return;
+      }
+      stopAllAudio();
+      const engine = await ensureAudioReady();
+      if (engine === `none`) return;
+
+      activeAudioMode = `groove`;
+      updateAudioButtonLabels();
+
+      let step = 0;
+      function tick() {
+        if (activeAudioMode !== `groove`) return;
+        const idx = step % 16;
+        renderBeatMatrix(idx);
+        if (customGroove.kick[idx]) playDrumHit(`kick`, engine);
+        if (customGroove.snare[idx]) playDrumHit(`snare`, engine);
+        if (customGroove.hat[idx]) playDrumHit(`hat`, engine);
+        step += 1;
+      }
+
+      tick();
+      const sixteenthMs = (60 / currentBpm / 4) * 1000;
+      loopTimer = setInterval(tick, sixteenthMs);
+    }
+
+    /* Arrangement Layer Matrix */
+    function selectArrangementLayer(key) {
+      const data = arrangementLayers[key];
+      if (!data) return;
+
+      [`verse`, `pre`, `chorus`, `bridge`].forEach(function(k) {
+        const btn = document.getElementById(`layer-btn-` + k);
+        if (btn) btn.classList.toggle(`is-active`, k === key);
+      });
+
+      const title = document.getElementById(`layer-panel-title`);
+      const note = document.getElementById(`layer-panel-note`);
+      const container = document.getElementById(`layer-bars-container`);
+      if (title) title.textContent = data.title;
+      if (note) note.textContent = data.note;
+      if (!container) return;
+
+      container.innerHTML = ``;
+      data.bars.forEach(function(b) {
+        const row = document.createElement(`div`);
+        row.className = `layer-row`;
+
+        const nameEl = document.createElement(`span`);
+        nameEl.className = `layer-name`;
+        nameEl.textContent = b.name;
+
+        const track = document.createElement(`div`);
+        track.className = `layer-track`;
+
+        const fill = document.createElement(`div`);
+        fill.className = `layer-fill` + (b.blue ? ` layer-fill--blue` : ``);
+        fill.style.width = b.pct + `%`;
+        track.appendChild(fill);
+
+        const pctEl = document.createElement(`span`);
+        pctEl.className = `layer-pct`;
+        pctEl.textContent = b.pct + `%`;
+
+        row.appendChild(nameEl);
+        row.appendChild(track);
+        row.appendChild(pctEl);
+        container.appendChild(row);
+      });
+    }
+
+    /* =========================================================================
+       SECTION 3: HISTORICAL EVOLUTION SVG CHART & ERA EXPLORER
+       ========================================================================= */
+    let currentEraKey = `tinpan`;
+
+    function selectEra(key) {
+      const era = eraData[key];
+      if (!era) return;
+      currentEraKey = key;
+
+      [`tinpan`, `rock`, `mtv`, `digital`, `stream`].forEach(function(k) {
+        const btn = document.getElementById(`era-btn-` + k);
+        if (btn) btn.classList.toggle(`is-active`, k === key);
+      });
+
+      const badge = document.getElementById(`era-period-badge`);
+      const title = document.getElementById(`era-title`);
+      const summary = document.getElementById(`era-summary`);
+      const media = document.getElementById(`era-media`);
+      const form = document.getElementById(`era-form`);
+      const timbre = document.getElementById(`era-timbre`);
+      const legacy = document.getElementById(`era-legacy`);
+
+      if (badge) badge.textContent = era.badge;
+      if (title) title.textContent = era.title;
+      if (summary) summary.textContent = era.summary;
+      if (media) media.textContent = era.media;
+      if (form) form.textContent = era.form;
+      if (timbre) timbre.textContent = era.timbre;
+      if (legacy) legacy.textContent = era.legacy;
+
+      renderHistoryChart();
+    }
+
+    function renderHistoryChart() {
+      const svg = document.getElementById(`history-svg`);
+      if (!svg) return;
+      const svgNS = `http://www.w3.org/2000/svg`;
+      svg.innerHTML = ``;
+
+      const W = 640;
+      const H = 300;
+      const padL = 44;
+      const padR = 95;
+      const padT = 28;
+      const padB = 38;
+      const plotW = W - padL - padR;
+      const plotH = H - padT - padB;
+      const maxSec = 60;
+
+      // Gridlines (0, 15, 30, 45, 60 sec)
+      [0, 15, 30, 45, 60].forEach(function(sec) {
+        const y = padT + plotH - (sec / maxSec) * plotH;
+        const line = document.createElementNS(svgNS, `line`);
+        line.setAttribute(`x1`, padL);
+        line.setAttribute(`x2`, W - padR);
+        line.setAttribute(`y1`, y);
+        line.setAttribute(`y2`, y);
+        line.setAttribute(`class`, sec === 0 ? `baseline` : `gridline`);
+        svg.appendChild(line);
+
+        const tick = document.createElementNS(svgNS, `text`);
+        tick.setAttribute(`x`, padL - 8);
+        tick.setAttribute(`y`, y + 4);
+        tick.setAttribute(`text-anchor`, `end`);
+        tick.setAttribute(`class`, `axis-tick`);
+        tick.textContent = sec + `s`;
+        svg.appendChild(tick);
+      });
+
+      // 30-second streaming threshold reference line
+      const y30 = padT + plotH - (30 / maxSec) * plotH;
+      const refTxt = document.createElementNS(svgNS, `text`);
+      refTxt.setAttribute(`x`, padL + 4);
+      refTxt.setAttribute(`y`, y30 - 5);
+      refTxt.setAttribute(`class`, `axis-tick`);
+      refTxt.textContent = `串流平台 30 秒計費基準線`;
+      svg.appendChild(refTxt);
+
+      // Compute coordinates
+      const introPts = [];
+      const chorusPts = [];
+      historyPoints.forEach(function(pt, i) {
+        const x = padL + (i / (historyPoints.length - 1)) * plotW;
+        introPts.push({ x: x, y: padT + plotH - (pt.intro / maxSec) * plotH, pt: pt });
+        chorusPts.push({ x: x, y: padT + plotH - (pt.firstChorus / maxSec) * plotH, pt: pt });
+      });
+
+      // Series 2 (Comparison blue): First Chorus Arrival
+      const chorusPath = document.createElementNS(svgNS, `path`);
+      chorusPath.setAttribute(`d`, buildSmoothPath(chorusPts));
+      chorusPath.setAttribute(`class`, `series-compare`);
+      chorusPath.style.strokeDasharray = `none`;
+      svg.appendChild(chorusPath);
+
+      // Series 1 (Story orange): Intro Length
+      const introPath = document.createElementNS(svgNS, `path`);
+      introPath.setAttribute(`d`, buildSmoothPath(introPts));
+      introPath.setAttribute(`class`, `series-story`);
+      svg.appendChild(introPath);
+
+      // Nodes & X-Axis Labels
+      historyPoints.forEach(function(pt, i) {
+        const ip = introPts[i];
+        const cp = chorusPts[i];
+        const isCurrent = pt.eraKey === currentEraKey;
+
+        // Vertical highlight column for active era
+        if (isCurrent) {
+          const guide = document.createElementNS(svgNS, `line`);
+          guide.setAttribute(`x1`, ip.x);
+          guide.setAttribute(`x2`, ip.x);
+          guide.setAttribute(`y1`, padT);
+          guide.setAttribute(`y2`, padT + plotH);
+          guide.setAttribute(`stroke`, `var(--outline-variant)`);
+          guide.setAttribute(`stroke-width`, `1`);
+          svg.appendChild(guide);
+        }
+
+        const dotC = document.createElementNS(svgNS, `circle`);
+        dotC.setAttribute(`cx`, cp.x);
+        dotC.setAttribute(`cy`, cp.y);
+        dotC.setAttribute(`r`, isCurrent ? `5.5` : `3.5`);
+        dotC.setAttribute(`fill`, `var(--data-2)`);
+        dotC.setAttribute(`stroke`, `var(--background)`);
+        dotC.setAttribute(`stroke-width`, `1.5`);
+        dotC.setAttribute(`class`, `era-node-btn`);
+        dotC.onclick = function() { selectEra(pt.eraKey); };
+        svg.appendChild(dotC);
+
+        const dotI = document.createElementNS(svgNS, `circle`);
+        dotI.setAttribute(`cx`, ip.x);
+        dotI.setAttribute(`cy`, ip.y);
+        dotI.setAttribute(`r`, isCurrent ? `6` : `4`);
+        dotI.setAttribute(`fill`, isCurrent ? `var(--on-surface)` : `var(--data-1)`);
+        dotI.setAttribute(`stroke`, `var(--background)`);
+        dotI.setAttribute(`stroke-width`, `1.5`);
+        dotI.setAttribute(`class`, `era-node-btn`);
+        dotI.onclick = function() { selectEra(pt.eraKey); };
+        svg.appendChild(dotI);
+
+        const xTick = document.createElementNS(svgNS, `text`);
+        xTick.setAttribute(`x`, ip.x);
+        xTick.setAttribute(`y`, H - 14);
+        xTick.setAttribute(`text-anchor`, `middle`);
+        xTick.setAttribute(`class`, `axis-tick era-node-btn`);
+        if (isCurrent) {
+          xTick.setAttribute(`fill`, `var(--on-surface)`);
+          xTick.setAttribute(`font-weight`, `700`);
+        }
+        xTick.textContent = pt.decade;
+        xTick.onclick = function() { selectEra(pt.eraKey); };
+        svg.appendChild(xTick);
+      });
+
+      // Direct endpoint labels
+      const lastIntro = introPts[introPts.length - 1];
+      const lblIntro = document.createElementNS(svgNS, `text`);
+      lblIntro.setAttribute(`x`, lastIntro.x + 10);
+      lblIntro.setAttribute(`y`, lastIntro.y + 4);
+      lblIntro.setAttribute(`class`, `label-story`);
+      lblIntro.textContent = `平均前奏 (~4s)`;
+      svg.appendChild(lblIntro);
+
+      const lastChorus = chorusPts[chorusPts.length - 1];
+      const lblChorus = document.createElementNS(svgNS, `text`);
+      lblChorus.setAttribute(`x`, lastChorus.x + 10);
+      lblChorus.setAttribute(`y`, lastChorus.y + 4);
+      lblChorus.setAttribute(`class`, `label-compare`);
+      lblChorus.textContent = `首次副歌 (~22s)`;
+      svg.appendChild(lblChorus);
+    }
+
+    /* =========================================================================
+       INITIALIZATION
+       ========================================================================= */
+    document.addEventListener(`DOMContentLoaded`, function() {
+      if (typeof lucide !== `undefined` && typeof lucide.createIcons === `function`) {
+        lucide.createIcons();
+      }
+      selectFormParadigm(`classic`);
+      selectProgression(`axis`);
+      selectGroove(`backbeat`);
+      selectArrangementLayer(`verse`);
+      selectEra(`tinpan`);
+    });
+  </script>
+</body>
+</html>
