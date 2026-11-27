@@ -53,17 +53,30 @@ for song_id, r in (zip(test['id'],test['best_rank'])):
     
 test['class_rank']=test['id'].map(class_map)    
 test.to_csv('test_df.csv',encoding='utf-8-sig',index=False)
+#=======================
+#  抓feature
+#=======================
 
 #music_feature
 feature_file=pd.read_csv(
     'C:/Users/student/Desktop/Spotify-chart-/all_data/tw/music_feature/full_music_features.csv'
     )
-feature_file['id']=list(map(lambda x:x.split('/')[-1],feature_file['href']))
+#feature_file['id']=list(map(lambda x:x.split('/')[-1],feature_file['href']))
 
+test=pd.read_csv('./test_isrc.csv')
+train=pd.read_csv('./train_isrc.csv')
 #合併兩個檔案
 #發現當初把重複的isrc刪掉了，我很抱歉QQQQ
-df=pd.merge(test, feature_file,how='left',on='id',indicator=True)
-df=df[df['_merge']=='both']
+df_test=pd.merge(test, feature_file,how='left',on='isrc',indicator=True)
+df_test=df_test[df_test['_merge']=='both'].drop(columns=['_merge','track_name_x'])
+
+df_train=pd.merge(train,feature_file,how='left',on='isrc',indicator=True)
+df_train=df_train[df_train['_merge']=='both'].drop(columns=['_merge','track_name_y'])
+
+##輸出檔案
+df_test.to_csv('test.csv',encoding='utf-8-sig',index=False)
+df_train.to_csv('train.csv',encoding='utf-8-sig',index=False)
+
 
 
 

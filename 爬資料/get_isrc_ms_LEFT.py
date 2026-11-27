@@ -23,7 +23,7 @@ token=content['access_token']
 
 #讀取要要求的id檔案
 left_num=eval(input('輸入剩下的資料數:'))
-id_url='./id_no_isrc.csv'
+id_url='./id_left_isrc.csv'
 id_data=pd.read_csv(id_url, encoding='utf-8-sig')
 spotify_id=list(id_data['id'][::-1])
 order=0
@@ -35,7 +35,7 @@ while len(spotify_id)!=0:
     if order=='88888888':
         print('下次再來吧!')
         break
-    for _ in range(30):        
+    for _ in range(3):        
         ids=spotify_id.pop()
         url=f"https://api.spotify.com/v1/tracks/{ids}"
         headers={

@@ -33,4 +33,4 @@ detail_df=detail_df[['id']]
 
 
 
-detail_data.to_csv('id_no_isrc.csv',index=False,encoding='utf-8-sig')
+detail_df.to_csv('id_left_isrc.csv',index=False,encoding='utf-8-sig')
